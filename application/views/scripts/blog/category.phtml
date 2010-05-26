@@ -1,0 +1,17 @@
+<?php $this->page_title .= ' &raquo; ' . 'Categories' . ' &raquo; ' . $this->category; ?>
+
+<div class="post">
+    <h1><?= $this->category ?></h1>
+    <?php if(count($this->posts) > 0) : ?>
+    <ul class="latest-blogs">
+    <?php foreach($this->posts as $post) : ?>
+        <li><a title="<?= $post->title ?>" href="/blog/view/<?= urlencode($this->category) ?>/<?= urlencode($post->title) ?>/"><?= $post->title ?></a></li>
+    <?php endforeach; ?>
+    </ul>
+    
+    <?= $this->paginationControl($this->posts, 'Sliding', 'pagination.phtml'); ?>
+    
+    <?php else : ?>
+        There are no posts in the category <strong><?= $this->category ?></strong>.
+    <?php endif; ?>
+</div>

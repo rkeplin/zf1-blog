@@ -1,0 +1,15 @@
+<div class="post">
+    <h1>Select a post to edit</h1>
+    <ul class="latest-blogs">
+    <?php foreach($this->posts as $post) : ?>
+        <li>
+            <a title="view" href="/admin/edit-post/id/<?= $post->id ?>/"><?= $post->title ?></a>
+            <p><em><strong>Date Added:</strong> <?= date("F jS, Y @ g:ia", strtotime($post->date_added)) ?></em></p>
+            <p><strong>Category:</strong> <?= $post->category->name ?></p>
+            <p><strong>Published:</strong> <?= $post->is_published ?></p>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+    
+    <?= $this->paginationControl($this->posts, 'Sliding', 'pagination.phtml') ?>
+</div>

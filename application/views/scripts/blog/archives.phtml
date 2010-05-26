@@ -1,0 +1,10 @@
+<?php $this->page_title .= ' &raquo; ' . 'Archives'; ?>
+
+<div class="post">
+    <h1>Select a year</h1>
+    <ul class="post-archives big">
+    <?php for($year = $this->years['min_year']; $year <= $this->years['max_year']; $year++) : ?>
+        <li><a title="Blogs from the year <?= $year ?>" href="/blog/archive/<?= $year ?>/"><?= $year ?></a></li>
+    <?php endfor;?>
+    </ul>
+</div>

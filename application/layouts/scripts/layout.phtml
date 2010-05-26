@@ -1,0 +1,137 @@
+<?php echo $this->doctype() ?>
+<?php
+    $front = Zend_Controller_Front::getInstance();
+    $controller = $front->getRequest()->getControllerName();
+    $action = $front->getRequest()->getActionName();
+    $category = $front->getRequest()->getParam('category');
+?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<meta name="title" content="<?= $this->page_title ?>" />
+	<meta name="Description" content="Need a website? Rob Keplin is a freelance web developer, ready to build and design websites from static to dynamic." />
+	<meta name="Keywords" content="Web Design, Web Development, freelance, PHP, MySQL, JavaScript, ASP.NET" />
+	<meta name="language" content="English" />
+	<meta name="author" content="Rob Keplin" />
+	<meta name="copyright" content="Copyright 2010" />
+	<meta name="robots" content="All" />
+
+	<title><?= $this->page_title ?></title>
+	<link href="/public/css/styles.css" type="text/css" rel="stylesheet" />
+    <link href="/blog/rss/" title="RSS" rel="alternate" type="application/rss+xml" />
+    <link rel="shortcut icon" href="/public/favicon.ico" type="image/x-icon" /> 
+    
+	<script type="text/javascript" src="/public/js/jquery.js"></script>
+	<script type="text/javascript" src="/public/js/jqueryColors.js"></script>
+	<script type="text/javascript" src="/public/js/scripts.js"></script>
+</head>
+
+<body>
+	<div id="header">
+		<div class="container">
+			<div id="logo"></div>
+			<div id="menu">
+				<div id="search">
+					<?php
+                    $form = new Form_SimpleSearch();
+                    echo $form;
+                    ?>
+				</div>
+				<ul>
+					<li><a <?php (($controller == 'index') && ($action == 'index')) ? print 'class="selected"' : ''; ?> title="Rob's Home" href="/">Home</a></li>
+					<li><a <?php (($controller == 'blog') && (($action == 'categories') || ($action == 'category') || $category)) ? print 'class="selected"' : ''; ?> title="Select a category" href="/blog/categories">Categories</a>
+						<ul>
+							<?= $this->categories($category) ?>
+						</ul>
+					</li>
+                    <li><a <?php (($controller == 'blog') && (($action == 'archives') || ($action == 'archive'))) ? print 'class="selected"' : ''; ?> title="Archive" href="/blog/archives/">Archive</a></li>
+					<li><a <?php (($controller == 'index') && ($action == 'contact')) ? print 'class="selected"' : ''; ?> title="Contact Rob" href="/contact/">Contact</a></li>
+                    <li><a <?php (($controller == 'index') && ($action == 'about')) ? print 'class="selected"' : ''; ?> title="About Rob" href="/about/">About</a></li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+	<div id="content">
+		<div class="container">
+            <div class="breadcrumbs">
+                <?php echo $this->navigation()->breadcrumbs()->setSeparator(' &raquo; ')->setMinDepth(0) ?>
+            </div>
+			<div id="left">
+				<div class="rightPad">
+                    <?php echo $this->layout()->content ?>
+                </div>
+			</div>
+			<div id="right">
+				<div class="leftPad">
+					<h3>About Rob</h3>
+					<div id="picture">
+						<img alt="rob keplin" src="/public/images/rob.jpg" />
+					</div>
+					<div class="about">
+					   I'm a web application developer, currently enjoying life in New England (USA).
+					</div>
+					
+					<h3 class="sector">Recent Posts</h3>
+                    <ul class="latest-blogs">
+					   <?= $this->recentBlogs(5) ?>
+				    </ul>
+                    
+					<h3 class="sector">Post Categories</h3>
+                    <ul class="post-categories">
+					   <?= $this->categories() ?>
+                    </ul>
+                    
+                    <h3 class="sector">QOTL</h3>
+					<p>
+						<?= $this->quote(); ?>
+					</p>
+					
+                    <h3 class="sector">Archive</h3>
+                    <ul class="post-archives">
+                        <?= $this->archive() ?>
+                    </ul>
+					
+					<h3 class="sector">External Links</h3>
+					<ul class="external-links">
+						<li class="linkedin"><a title="Linked In" href="http://www.linkedin.com/in/robkeplin" rel="nofollow">Linked In</a></li>
+						<li class="twitter"><a title="Twitter" href="http://www.twitter.com/rkeplin" rel="nofollow">Follow Me</a></li>
+						<li><a title="Great Screencasts" href="http://www.sampsonvideos.com" rel="nofollow">Sampson Videos</a></li>
+						<li><a title="Anthony Decarolis" href="http://www.anthonydecarolis.com" rel="nofollow">Anthony DeCarolis</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div id="footer">
+		<div class="container">
+			<a <?php (($controller == 'index') && ($action == 'index')) ? print 'class="selected"' : ''; ?> title="Rob's Home" href="/">Home</a>
+			<a <?php (($controller == 'blog') && (($action == 'categories') || ($action == 'category'))) ? print 'class="selected"' : ''; ?> title="Rob's Blog" href="/blog/categories/">Categories</a>
+			<a <?php (($controller == 'blog') && ($action == 'archives')) ? print 'class="selected"' : ''; ?> title="Archive" href="/blog/archives/">Archive</a>
+            <a <?php (($controller == 'index') && ($action == 'contact')) ? print 'class="selected"' : ''; ?> title="Contact Rob" href="/contact/">Contact</a>
+            <a <?php (($controller == 'index') && ($action == 'about')) ? print 'class="selected"' : ''; ?> title="About" href="/about/">About</a>
+			<a <?php ($controller == 'admin') ? print 'class="selected"' : ''; ?> title="Admin Panel" href="/admin/">Administration</a>
+			<br />
+            <!--
+            Copyright &copy; 2010. Rob Keplin. All Rights Reserved.
+            -->
+            <div class="zf">
+                <a title="Powered by Zend Framework" href="http://framework.zend.com/">
+                    <img alt="Zend Framework" src="/public/images/zf.png" />
+                </a>
+            </div>
+            
+            <script type="text/javascript">
+            	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+            <script type="text/javascript">
+            	var pageTracker = _gat._getTracker("UA-3883176-2");
+            	pageTracker._trackPageview();
+            </script>
+		</div>
+	</div>
+</body>
+</html>

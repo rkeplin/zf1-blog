@@ -1,0 +1,10 @@
+<div class="post">
+    <h1>Create Post</h1>
+    <?php if(isset($this->message)) : ?>
+    <div class="message">
+        <?= $this->message; ?>
+    </div>
+    <?php endif; ?>
+    
+    <?= $this->form ?>
+</div>

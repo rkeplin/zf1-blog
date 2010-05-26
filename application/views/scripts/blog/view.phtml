@@ -1,0 +1,30 @@
+<?php $this->page_title .= ' &raquo; ' . 'Categories' . ' &raquo; ' . $this->post->category->name . ' &raquo; ' . $this->post->title; ?>
+<?php if(isset($this->message)) : ?>
+<div class="message">
+    <?= $this->message; ?>
+</div>
+<?php endif; ?>
+
+<div class="post">
+    <h1><?= $this->post->title ?></h1>
+    <div class="post-details">
+        <a title="<?= $this->post->category->name ?>" href="/blog/category/category/<?= urlencode($this->post->category->name) ?>/"><?= $this->post->category->name ?></a> | Posted by: <?= $this->post->user->name ?> on <?= date("F jS, Y", strtotime($this->post->date_added)) ?>
+        <?php $auth = Zend_Auth::getInstance(); ?>
+        
+        <?php if($user = new Model_User($auth->getIdentity())) : ?>
+            <?php if($user->role_id == Model_Role::ADMIN) : ?>
+                <a title="edit" href="/admin/edit-post/id/<?= $this->post->id ?>/">edit</a>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
+    <div class="post-content">
+        <?= stripslashes($this->post->content) ?>
+    </div>
+</div>
+
+<div class="comments">
+    <?= $this->comments($this->post->comments) ;?>
+    <div class="box">
+        <?= $this->form ?>
+    </div>
+</div>

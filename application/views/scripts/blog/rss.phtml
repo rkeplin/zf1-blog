@@ -1,0 +1,15 @@
+<rss version="2.0">
+    <channel>
+        <title>Rob Keplin's Blog</title>
+        <description>Latest blog modifications</description>
+        <link>http://www.robkeplin.com</link>
+        
+        <?php foreach($this->posts as $post) : ?>
+        <item>
+            <title><?= $post->title ?></title>
+            <description><?= strip_tags(substr($post->content, 0, 255)) ?>...</description>
+            <link>http://www.robkeplin.com/blog/view/<?= urlencode($post->category->name) ?>/<?= urlencode($post->title) ?>/</link>
+        </item>
+        <?php endforeach; ?>
+    </channel>
+</rss>

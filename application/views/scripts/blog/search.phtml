@@ -1,0 +1,24 @@
+<?php $this->page_title .= ' &raquo; ' . 'Search'; ?>
+<div class="post">
+    <h1>Search Rob's Blog</h1>
+    
+    <div class="box search">
+        <?= $this->form ?>
+    </div>
+
+    <?php if(count($this->posts) > 0) : ?>
+        <h1>Search Results</h1>
+        <ul class="latest-blogs">
+        <?php foreach($this->posts as $post) : ?>
+            <li><a title="<?= $post->title ?>" href="/blog/view/<?= urlencode($post->category->name) ?>/<?= urlencode($post->title) ?>/"><?= $post->title ?></a>
+                <p><em><?= strip_tags(substr($post->content, 0, 200)) ?></em> ... <br /><a title="continue reading" href="/blog/view/<?= urlencode($post->category->name) ?>/<?= urlencode($post->title) ?>/">continue reading</a></p>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+        <?= $this->paginationControl($this->posts, 'Sliding', 'pagination.phtml'); ?>
+    <?php elseif(count($this->posts) == 0) : ?>
+        <h1>Search Results</h1>
+        No results were found.
+    <?php endif; ?>
+    
+</div>

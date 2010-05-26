@@ -1,0 +1,12 @@
+<?php $this->page_title .= ' &raquo; ' . 'Contact'; ?>
+
+<?php if(isset($this->message)) : ?>
+<div class="message">
+    <?= $this->message; ?>
+</div>
+<?php endif; ?>
+    
+<div class="post">
+    <h1>Contact Rob</h1>
+    <?= $this->form ?>
+</div>

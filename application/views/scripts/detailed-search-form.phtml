@@ -1,0 +1,26 @@
+<form id="<?= $this->element->getName() ?>" action="<?= $this->element->getAction() ?>" method="<?= $this->element->getMethod() ?>">
+    <table cellspacing="5" cellpadding="0">
+        <tr>
+            <td>
+                <dl>
+                    <?= $this->element->query ?>
+                </dl>
+            </td>
+            <td>
+                <dl>
+                    <?= $this->element->category ?>
+                </dl>
+            </td>
+            <td>
+                <dl>
+                    <?= $this->element->year ?>
+                </dl>
+            </td>
+            <td>
+                <dl>
+                    <?= $this->element->submit_comment ?>
+                </dl>
+            </td>
+        </tr>
+    </table>
+</form>
