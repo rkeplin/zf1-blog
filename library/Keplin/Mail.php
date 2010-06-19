@@ -20,8 +20,11 @@ class Keplin_Mail
             throw new Exception('No default options were set for Keplin_Mail');
         }
         
-        $transport = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $this->_options);
-        Zend_Mail::setDefaultTransport($transport);
+        if(APPLICATION_ENV != 'production')
+        {
+            $transport = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $this->_options);
+            Zend_Mail::setDefaultTransport($transport);
+        }
     }
     
     public function sendContact(Model_Contact $contact)
@@ -31,10 +34,10 @@ class Keplin_Mail
         $mail->setBodyHtml(nl2br($contact->comment) . '<br><br>' . $contact->name . '<br>' . $contact->website);
         $mail->setFrom($contact->email, $contact->name);
         $mail->addTo('rkeplin@gmail.com');
-        $mail->send();
+        $this->_send($mail);
     }
     
-    public function sendRobComment(Model_Comment $comment, Model_Post $post)
+    public function notifyAuthor(Model_Comment $comment, Model_Post $post)
     {
         $mail = new Zend_Mail();
         $mail->setSubject('Comment from robkeplin.com');
@@ -48,10 +51,10 @@ class Keplin_Mail
         $mail->setBodyHtml($message);
         $mail->setFrom('rkeplin@gmail.com', 'Rob Keplin');
         $mail->addTo('rkeplin@gmail.com');
-        $mail->send();
+        $this->_send($mail);
     }
     
-    public function sendCommentResponse(Model_Comment $comment, Model_Post $post)
+    public function notifyCommenter(Model_Comment $comment, Model_Post $post)
     {
         $mail = new Zend_Mail();
         $mail->setSubject('Response from robkeplin.com');
@@ -66,7 +69,15 @@ class Keplin_Mail
         $mail->setFrom('rkeplin@gmail.com', 'Rob Keplin');
         $mail->addTo($comment->email);
         $mail->addBcc('rkeplin@gmail.com');
-        $mail->send();
+        $this->_send($mail);
+    }
+    
+    protected function _send(Zend_Mail $mail)
+    {
+        if(APPLICATION_ENV != 'testing')
+        {
+            $mail->send();
+        }
     }
     
     public static function setOptions(array $options)

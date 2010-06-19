@@ -46,6 +46,11 @@ abstract class Keplin_Model_Collection_Abstract implements Iterator, Countable
     
     public function getItem($index)
     {
+        if($this->_resultSet[$index] instanceof $this->_item_class)
+        {
+           return $this->_resultSet[$index];
+        }
+        
         return new $this->_item_class($this->_resultSet[$index]);
     }
 

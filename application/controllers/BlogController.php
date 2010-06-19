@@ -5,8 +5,8 @@ class BlogController extends Zend_Controller_Action
     
     public function categoryAction()
     {
-        $mapper_post = new Model_Mapper_Post();
-        $posts = $mapper_post->getFromCategory($this->_request->getParam('category'), $this->_request->getParam('page'));
+        $service = new Service_Post();
+        $posts = $service->getPagedFromCategory($this->_request->getParam('category'), $this->_request->getParam('page'));
         
         $this->view->category = $this->_request->getParam('category');
         $this->view->posts = $posts;
@@ -16,24 +16,24 @@ class BlogController extends Zend_Controller_Action
     {
         $this->_helper->layout->disableLayout();
         
-        $mapper_post = new Model_Mapper_Cache_Post();
-        $posts = $mapper_post->getRssFeed();
+        $service = new Service_Post();
+        $posts = $service->getRss();
         
         $this->view->posts = $posts;
     }
     
     public function archivesAction()
     {
-        $mapper_post = new Model_Mapper_Cache_Post();
-        $years = $mapper_post->fetchValidYears();
+        $service = new Service_Post();
+        $years = $service->getValidYears();
         
         $this->view->years = $years;
     }
         
     public function archiveAction()
     {
-        $mapper_post = new Model_Mapper_Post();
-        $posts = $mapper_post->getFromArchive($this->_request->getParam('year'), $this->_request->getParam('page'));
+        $service = new Service_Post();
+        $posts = $service->getArchive($this->_request->getParam('year'), $this->_request->getParam('page'));
         
         $this->view->year = $this->_request->getParam('year');
         $this->view->posts = $posts;
@@ -48,25 +48,22 @@ class BlogController extends Zend_Controller_Action
     public function searchAction()
     {
         $service = new Service_Search();
+        $service->findPost($this->_request->getParams());
         
-        $service->findResults($this->_request->getParams());   
         $this->view->posts = $service->getResults();
-        
         $this->view->form = $service->getForm();
     }
     
     public function viewAction()
     {
-        $mapper_post = new Model_Mapper_Cache_Post();
-        $mapper_post->is_published = 0;
-        $post = $mapper_post->getFromTitle($this->_request->getParam('title'));
+        $service = new Service_Post();
+        $post = $service->getFromTitle($this->_request->getParam('title'));
         
-        $service = new Service_Comment();
-        $service->post_id = $post->id;
+        $service = new Service_Comment($post->id);
         
         if($data = $this->_request->getPost())
         {
-            $service->makeComment($data, $post);
+            $service->create($data, $post);
         }
         
         $this->view->post = $post;

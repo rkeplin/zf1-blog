@@ -4,7 +4,7 @@ class Form_Login extends Keplin_Form_Abstract
 {
     public function init()
     {
-        $this->setMethod('post');
+        $this->setMethod('post')->setName('login_form');
         
         $this->addElement('text', 'email', array(
             'label' => 'Username',

@@ -1,8 +1,7 @@
 <?php
-class Service_Contact
+class Service_Contact extends Keplin_Service_Abstract
 {
     protected $_form;
-    protected $_message;
     
     public function send($data)
     {
@@ -15,18 +14,12 @@ class Service_Contact
             $contact_mapper->send($contact);
             
             $form->clear();
-            
-            $this->_message = 'Successfully sent mail to Rob!';
+            $this->_message('contact');
         }
         else
         {
-            $this->_message = 'Please fix the errors detailed on the contact form below.';
+            $this->_message('form_errors');
         }
-    }
-    
-    public function getMessage()
-    {
-        return $this->_message;
     }
     
     public function getForm()

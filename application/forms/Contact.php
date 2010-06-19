@@ -4,7 +4,7 @@ class Form_Contact extends Keplin_Form_Abstract
 {
     public function init()
     {
-        $this->setMethod('post');
+        $this->setMethod('post')->setName('contact_form');
         
         $this->addElement('text', 'name', array(
             'label' => 'Name',

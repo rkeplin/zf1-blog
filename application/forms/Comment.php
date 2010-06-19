@@ -4,7 +4,7 @@ class Form_Comment extends Keplin_Form_Abstract
 {
     public function init()
     {
-        $this->setMethod('post');
+        $this->setMethod('post')->setName('comment_form');
         
         $this->addElement('select', 'parent_id', array(
             'label' => 'Reply To',

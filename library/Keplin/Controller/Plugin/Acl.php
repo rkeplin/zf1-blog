@@ -15,7 +15,7 @@ class Keplin_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
         $acl->allow(Model_Role::GUEST, 'blog');
         $acl->allow(Model_Role::GUEST, 'error');
         $acl->allow(Model_Role::GUEST, 'index');
-        $acl->allow(Model_Role::GUEST, 'admin', 'login');
+        $acl->allow(Model_Role::GUEST, 'admin', array('login'));
         
         $acl->allow(Model_Role::ADMIN, 'admin');
         
@@ -36,6 +36,7 @@ class Keplin_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
          
         if(!$acl->isAllowed($role, $resource, $privilege))
         {
+            $this->_request->setControllerName('admin')->setActionName('login');
             $this->_response->setRedirect('/admin/login/');
         }
     }

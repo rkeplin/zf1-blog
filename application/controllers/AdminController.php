@@ -45,9 +45,8 @@ class AdminController extends Zend_Controller_Action
     
     public function viewPostsAction()
     {
-       $mapper_post = new Model_Mapper_Post();
-       $mapper_post->is_published = 0;
-       $posts = $mapper_post->getPagedTitles($this->_request->getParam('page'));
+       $service = new Service_Post();
+       $posts = $service->getPaged($this->_request->getParam('page'));
        
        $this->view->posts = $posts;
     }

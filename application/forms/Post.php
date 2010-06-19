@@ -4,7 +4,7 @@ class Form_Post extends Keplin_Form_Abstract
 {
     public function init()
     {
-        $this->setMethod('post');
+        $this->setMethod('post')->setName('post_form');
         
         $this->addElement('text', 'title', array(
             'label' => 'Title',

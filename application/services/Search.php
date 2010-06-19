@@ -4,7 +4,7 @@ class Service_Search
     protected $_form;
     protected $_searchResults;
     
-    public function findResults($data)
+    public function findPost($data)
     {
         $form = $this->getForm();
         
@@ -17,11 +17,6 @@ class Service_Search
         }
     }
     
-    public function getResults()
-    {
-        return $this->_searchResults;
-    }
-    
     public function getForm()
     {
         if(null === $this->_form)
@@ -30,5 +25,10 @@ class Service_Search
         }
         
         return $this->_form;
+    }
+    
+    public function getResults()
+    {
+        return $this->_searchResults;
     }
 }

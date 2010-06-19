@@ -1,8 +1,7 @@
 <?php
-class Service_User
+class Service_User extends Keplin_Service_Abstract
 {
     protected $_form;
-    protected $_message = null;
     
     public function login($data)
     {
@@ -19,7 +18,7 @@ class Service_User
             
             if(!$result->isValid())
             {
-                $this->_message = 'The credentials entered were incorrect.';
+                $this->_message('invalid_pass');
                 return false;
             }
 
@@ -33,11 +32,6 @@ class Service_User
     public function logout()
     {
         Zend_Auth::getInstance()->clearIdentity();
-    }
-    
-    public function getMessage()
-    {
-        return $this->_message;
     }
     
     public function getForm()

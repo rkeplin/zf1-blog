@@ -4,9 +4,9 @@ class Form_Search extends Keplin_Form_Abstract
 {
     public function init()
     {
-        $this->setMethod('get');
-        $this->setAction('/blog/search-handler/');
-        $this->setName('detailedsearch');
+        $this->setMethod('get')
+             ->setAction('/blog/search-handler/')
+             ->setName('detailedsearch');
         
         $this->setDecorators(array(
             array('ViewScript', array('viewScript' => 'detailed-search-form.phtml')))
