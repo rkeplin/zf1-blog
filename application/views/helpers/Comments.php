@@ -63,7 +63,7 @@ class Zend_View_Helper_Comments extends Zend_View_Helper_Abstract
                                 </a>
                             </div>';
             
-                $string .= $comment->comment;
+                $string .= stripslashes($comment->comment);
                 $string .= '<div class="clear"></div>';
             $string .= '</div>';
         $string .= '</div>';

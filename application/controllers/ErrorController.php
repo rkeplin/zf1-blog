@@ -1,8 +1,6 @@
 <?php
-
 class ErrorController extends Zend_Controller_Action
 {
-
     public function errorAction()
     {
         $errors = $this->_getParam('error_handler');
@@ -39,13 +37,14 @@ class ErrorController extends Zend_Controller_Action
     public function getLog()
     {
         $bootstrap = $this->getInvokeArg('bootstrap');
+        if(!$bootstrap)
+        {
+            return false;
+        }
         if (!$bootstrap->hasPluginResource('Log')) {
             return false;
         }
         $log = $bootstrap->getResource('Log');
         return $log;
     }
-
-
 }
-

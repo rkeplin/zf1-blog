@@ -27,7 +27,7 @@ class Model_Mapper_Comment extends Keplin_Model_Mapper_Abstract
     
     public function getPostComments($id)
     {
-        $select = $this->_db->select()->from(array('c' => 'comments'))->where('post_id = ?', $id)->order('parent_id ASC');
+        $select = $this->_db->select()->from(array('c' => 'comments'))->where('post_id = ?', $id)->order('date_added ASC');
         $comment = $this->_db->fetchAll($select);
         
         return new Model_CommentCollection($comment);

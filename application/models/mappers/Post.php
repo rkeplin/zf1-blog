@@ -172,6 +172,12 @@ class Model_Mapper_Post extends Keplin_Model_Mapper_Abstract
         return new Model_PostCollection($data);
     }
     
+    public function delete(Model_Post $post)
+    {
+        $where[] = 'id = ' . $this->_db->quote($post->id);
+        $this->_db->delete('posts', $where);
+    }
+    
     public function getFromCategory($category, $page = 1)
     {
         $select = $this->_db->select()->from(array('p' => 'posts'), array('id', 'title', 'date_added', 'date_modified'))

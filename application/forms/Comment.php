@@ -39,13 +39,16 @@ class Form_Comment extends Keplin_Form_Abstract
             'required' => true 
         ));
         
-        $this->addElement('captcha', 'captcha', array(
-            'label' => '',
-            'captcha' => array(
-                'captcha' => 'dumb',
-                'wordLen' => 4
-            )
-        ));
+        if(APPLICATION_ENV != 'testing')
+        {
+            $this->addElement('captcha', 'captcha', array(
+                'label' => '',
+                'captcha' => array(
+                    'captcha' => 'dumb',
+                    'wordLen' => 4
+                )
+            ));   
+        }
         
         $this->addElement('submit', 'submit_comment', array(
             'label' => 'Submit Comment'

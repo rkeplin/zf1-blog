@@ -1,13 +1,6 @@
 <?php
-
 class IndexController extends Zend_Controller_Action
 {
-
-    public function init()
-    {
-        $this->view->page_title = 'Rob Keplin\'s Blog';
-    }
-
     public function indexAction()
     {
         $mapper_post = new Model_Mapper_Cache_Post();
@@ -29,11 +22,5 @@ class IndexController extends Zend_Controller_Action
         $this->view->form = $service->getForm();
     }
     
-    public function aboutAction()
-    {
-        
-    }
-
-
+    public function aboutAction(){}
 }
-

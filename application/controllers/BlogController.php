@@ -1,13 +1,6 @@
 <?php
-
 class BlogController extends Zend_Controller_Action
 {
-
-    public function init()
-    {
-        $this->view->page_title = 'Rob Keplin\'s Blog';
-    }
-    
     public function categoriesAction(){}
     
     public function categoryAction()
@@ -80,7 +73,4 @@ class BlogController extends Zend_Controller_Action
         $this->view->message = $service->getMessage();
         $this->view->form = $service->getForm();
     }
-
-
 }
-

@@ -1,13 +1,6 @@
 <?php
-
 class AdminController extends Zend_Controller_Action
 {
-
-    public function init()
-    {
-        $this->view->page_title = 'Rob Keplin\'s Blog &raquo; Admin';    
-    }
-    
     public function indexAction(){}
     
     public function loginAction()
@@ -73,4 +66,3 @@ class AdminController extends Zend_Controller_Action
         $this->view->form = $form;
     }
 }
-

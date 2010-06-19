@@ -1,3 +1,5 @@
+<?php $this->page_title = 'Rob Keplin\'s Blog &raquo; Admin &raquo; Edit Post'; ?>
+
 <div class="post">
     <h1>Edit Post (<a href="/blog/view/category/<?= urlencode($this->form->category_id->getMultiOption($this->form->category_id->getValue())) ?>/title/<?= urlencode($this->form->title->getValue()); ?>">view blog</a></a>)</h1>
     <?php if(isset($this->message)) : ?>

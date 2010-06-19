@@ -36,13 +36,16 @@ class Form_Contact extends Keplin_Form_Abstract
             'required' => true 
         ));
         
-        $this->addElement('captcha', 'captcha', array(
-            'label' => '',
-            'captcha' => array(
-                'captcha' => 'dumb',
-                'wordLen' => 4
-            )
-        ));
+        if(APPLICATION_ENV != 'testing')
+        {
+            $this->addElement('captcha', 'captcha', array(
+                'label' => '',
+                'captcha' => array(
+                    'captcha' => 'dumb',
+                    'wordLen' => 4
+                )
+            ));
+        }
         
         $this->addElement('submit', 'send', array(
             'label' => 'Send'
