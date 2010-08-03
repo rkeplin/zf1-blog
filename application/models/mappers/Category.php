@@ -1,5 +1,7 @@
 <?php
-class Model_Mapper_Category extends Keplin_Model_Mapper_Abstract
+class Model_Mapper_Category 
+    extends Keplin_Model_Mapper_Abstract
+        implements Model_Mapper_CategoryInterface
 {
     public function save(Model_Category $category)
     {

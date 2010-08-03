@@ -1,5 +1,7 @@
 <?php
-class Model_Mapper_User extends Keplin_Model_Mapper_Abstract
+class Model_Mapper_User 
+    extends Keplin_Model_Mapper_Abstract
+        implements Model_Mapper_UserInterface
 {
     private $_user;
     
@@ -30,9 +32,10 @@ class Model_Mapper_User extends Keplin_Model_Mapper_Abstract
                             ->where('email = ?', $user->email)
                             ->where('password = ?', $user->password);
         
-        $user = (array)$this->_db->fetchRow($select);
+        $data = (array)$this->_db->fetchRow($select);
+        $user->setOptions($data);
         
-        return new Model_User($user);
+        return $user;
     }
     
     public function getUser($id)

@@ -1,5 +1,4 @@
 <?php
-
 class Form_Search extends Keplin_Form_Abstract
 {
     public function init()

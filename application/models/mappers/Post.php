@@ -1,5 +1,7 @@
 <?php
-class Model_Mapper_Post extends Keplin_Model_Mapper_Abstract
+class Model_Mapper_Post 
+    extends Keplin_Model_Mapper_Abstract
+        implements Model_Mapper_PostInterface
 {
     public $is_published;
     
@@ -34,7 +36,7 @@ class Model_Mapper_Post extends Keplin_Model_Mapper_Abstract
         return new Model_PostCollection($data);
     }
     
-    public function filter($select)
+    protected function _filter($select)
     {
         if($this->is_published)
         {
@@ -48,7 +50,7 @@ class Model_Mapper_Post extends Keplin_Model_Mapper_Abstract
     {
         $select = $this->_db->select()->from(array('p' => 'posts'), array('id', 'title', 'content', 'date_added', 'date_modified'))
                                       ->join(array('c' => 'categories'), 'c.id = p.category_id', array('category' => 'name'));
-        $select = $this->filter($select);
+        $select = $this->_filter($select);
         
         if(isset($data['query']) && $data['query'])
         {
@@ -79,7 +81,7 @@ class Model_Mapper_Post extends Keplin_Model_Mapper_Abstract
                                       ->joinLeft(array('u' => 'users'), 'u.id = p.user_id', array('user_id' => 'id', 'user_name' => 'name', 'email'))
                                       ->joinLeft(array('c' => 'categories'), 'c.id = p.category_id', array('category_id' => 'id', 'category_name' => 'name'))
                                       ->where('p.title = ?', $title);
-        $select = $this->filter($select);
+        $select = $this->_filter($select);
         
         $data = $this->_db->fetchRow($select);
         
@@ -92,7 +94,7 @@ class Model_Mapper_Post extends Keplin_Model_Mapper_Abstract
         $post->user = new Model_User();
         $post->user->id = $data['user_id'];
         $post->user->name = $data['user_name'];
-        
+ 
         $mapper_comments = new Model_Mapper_Comment();
         $comments = $mapper_comments->getPostComments($post->id);
         $post->comments = $comments;
@@ -107,7 +109,7 @@ class Model_Mapper_Post extends Keplin_Model_Mapper_Abstract
                                       ->joinLeft(array('c' => 'categories'), 'c.id = p.category_id', array('category_id' => 'id', 'category_name' => 'name'))
                                       ->order('p.date_added DESC')
                                       ->limit(1);
-        $select = $this->filter($select);
+        $select = $this->_filter($select);
         $data = $this->_db->fetchRow($select);
         
         $post = new Model_Post($data);
@@ -129,7 +131,7 @@ class Model_Mapper_Post extends Keplin_Model_Mapper_Abstract
                                       ->joinLeft(array('u' => 'users'), 'u.id = p.user_id', array('user_id' => 'id', 'user_name' => 'name', 'email'))
                                       ->joinLeft(array('c' => 'categories'), 'c.id = p.category_id', array('category_id' => 'id', 'category_name' => 'name'))
                                       ->where('p.id = ?', $id);
-        $select = $this->filter($select);
+        $select = $this->_filter($select);
         $data = $this->_db->fetchRow($select);
         
         $post = new Model_Post($data);
@@ -152,7 +154,7 @@ class Model_Mapper_Post extends Keplin_Model_Mapper_Abstract
     public function fetchValidYears()
     {
         $select = $this->_db->select()->from(array('p' => 'posts'), array('min_year' => 'MIN(YEAR(date_added))', 'max_year' => 'MAX(YEAR(date_added))'));
-        $select = $this->filter($select);
+        $select = $this->_filter($select);
                             
         $data = $this->_db->fetchRow($select);
         
@@ -165,7 +167,7 @@ class Model_Mapper_Post extends Keplin_Model_Mapper_Abstract
                                       ->join(array('c' => 'categories'), 'c.id = p.category_id', array('category' => 'name'))
                                       ->order('p.date_added DESC')
                                       ->limit($limit);
-        $select = $this->filter($select);
+        $select = $this->_filter($select);
                                       
         $data = $this->_db->fetchAll($select);
         
@@ -183,7 +185,7 @@ class Model_Mapper_Post extends Keplin_Model_Mapper_Abstract
         $select = $this->_db->select()->from(array('p' => 'posts'), array('id', 'title', 'date_added', 'date_modified'))
                                       ->join(array('c' => 'categories'), 'c.id = p.category_id')
                                       ->where('c.name = ?', $category);
-        $select = $this->filter($select);
+        $select = $this->_filter($select);
         
         $adapter = new Keplin_Paginator_Adapter('Model_PostCollection', $select);
         $paginator = new Zend_Paginator($adapter);
@@ -198,7 +200,7 @@ class Model_Mapper_Post extends Keplin_Model_Mapper_Abstract
         $select = $this->_db->select()->from(array('p' => 'posts'), array('id', 'title', 'date_added', 'date_modified'))
                                       ->join(array('c' => 'categories'), 'c.id = p.category_id', array('category' => 'name'))
                                       ->where('YEAR(p.date_added) = ?', $year);
-        $select = $this->filter($select);
+        $select = $this->_filter($select);
         
         $adapter = new Keplin_Paginator_Adapter('Model_PostCollection', $select);
         $paginator = new Zend_Paginator($adapter);
@@ -214,7 +216,7 @@ class Model_Mapper_Post extends Keplin_Model_Mapper_Abstract
         $select = $this->_db->select()->from(array('p' => 'posts'), array('id', 'title', 'date_added', 'date_modified', 'is_published'))
                                       ->join(array('c' => 'categories'), 'c.id = p.category_id', array('category' => 'name'))
                                       ->order('p.date_added DESC');
-        $select = $this->filter($select);
+        $select = $this->_filter($select);
         
         $adapter = new Keplin_Paginator_Adapter('Model_PostCollection', $select);
         $paginator = new Zend_Paginator($adapter);

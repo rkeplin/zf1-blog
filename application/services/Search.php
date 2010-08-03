@@ -3,6 +3,12 @@ class Service_Search
 {
     protected $_form;
     protected $_searchResults;
+    protected $_mapper;
+    
+    public function __construct()
+    {
+        $this->setMapper(new Model_Mapper_Cache_Post());
+    }
     
     public function findPost($data)
     {
@@ -11,10 +17,13 @@ class Service_Search
         if($form->isValid($data))
         {
             $page = (isset($data['page'])) ? $data['page'] : 1;
-            
-            $mapper_post = new Model_Mapper_Post();
-            $this->_searchResults = $mapper_post->query($data, $page);    
+            $this->_searchResults = $this->_mapper->query($data, $page);    
         }
+    }
+    
+    public function setMapper(Model_Mapper_PostInterface $mapper)
+    {
+        $this->_mapper = $mapper;
     }
     
     public function getForm()

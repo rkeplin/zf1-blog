@@ -90,7 +90,7 @@ class AdminControllerTest extends ControllerTestCase
         
         $this->request->setMethod('POST')
              ->setPost(array(
-                'title' => 'Edit 123',
+                'title' => 'Edit 123' . time(),
                 'content' => 'The test content that was edited.',
                 'category_id' => '5',
                 'new_category' => '',

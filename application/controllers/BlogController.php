@@ -58,12 +58,15 @@ class BlogController extends Zend_Controller_Action
     {
         $service = new Service_Post();
         $post = $service->getFromTitle($this->_request->getParam('title'));
-        
-        $service = new Service_Comment($post->id);
-        
+
+        $service = new Service_Comment($post);
+        $service->attach(new Keplin_Mail_Author());
+        $service->attach(new Keplin_Mail_Commenter());
+        $service->attach(new Keplin_Mail_Comment());
+
         if($data = $this->_request->getPost())
         {
-            $service->create($data, $post);
+            $service->create($data);
         }
         
         $this->view->post = $post;

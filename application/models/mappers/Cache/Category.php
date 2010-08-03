@@ -1,5 +1,6 @@
 <?php
-class Model_Mapper_Cache_Category extends Model_Mapper_Category
+class Model_Mapper_Cache_Category 
+    extends Model_Mapper_Category
 {
     protected $_cache = null;
     
@@ -8,6 +9,12 @@ class Model_Mapper_Cache_Category extends Model_Mapper_Category
         parent::__construct();
         
         $this->_cache = Zend_Registry::get('cache');   
+    }
+    
+    public function save(Model_Category $category)
+    {
+        parent::save($category);
+        $this->_cache->clean('all', array('post'));
     }
     
     public function fetchAll($is_published = 1)

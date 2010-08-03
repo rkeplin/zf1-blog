@@ -1,5 +1,7 @@
 <?php
-class Model_Mapper_Quote extends Keplin_Model_Mapper_Abstract
+class Model_Mapper_Quote 
+    extends Keplin_Model_Mapper_Abstract
+        implements Model_Mapper_QuoteInterface
 {
     public function save(Model_Quote $quote)
     {

@@ -2,6 +2,12 @@
 class Service_Contact extends Keplin_Service_Abstract
 {
     protected $_form;
+    protected $_mapper;
+    
+    public function __construct()
+    {
+        $this->setMapper(new Model_Mapper_Contact());
+    }
     
     public function send($data)
     {
@@ -9,9 +15,8 @@ class Service_Contact extends Keplin_Service_Abstract
         
         if($form->isValid($data))
         {
-            $contact_mapper = new Model_Mapper_Contact();
             $contact = new Model_Contact($data);
-            $contact_mapper->send($contact);
+            $this->_mapper->send($contact);
             
             $form->clear();
             $this->_message('contact');
@@ -20,6 +25,11 @@ class Service_Contact extends Keplin_Service_Abstract
         {
             $this->_message('form_errors');
         }
+    }
+    
+    public function setMapper(Model_Mapper_ContactInterface $mapper)
+    {
+        $this->_mapper = $mapper;
     }
     
     public function getForm()

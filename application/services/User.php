@@ -2,7 +2,7 @@
 class Service_User extends Keplin_Service_Abstract
 {
     protected $_form;
-    
+
     public function login($data)
     {
         $form = $this->getForm();
@@ -10,7 +10,6 @@ class Service_User extends Keplin_Service_Abstract
         if($form->isValid($data))
         {
             $user = new Model_User($data);
-            $user_mapper = new Model_Mapper_User();
             
             $auth_adapter = new Keplin_Auth_Adapter($user);
             $auth = Zend_Auth::getInstance();
@@ -28,7 +27,7 @@ class Service_User extends Keplin_Service_Abstract
         
         return false;
     }
-    
+
     public function logout()
     {
         Zend_Auth::getInstance()->clearIdentity();
