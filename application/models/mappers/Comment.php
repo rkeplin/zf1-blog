@@ -1,7 +1,6 @@
 <?php
 class Model_Mapper_Comment 
     extends Keplin_Model_Mapper_Abstract
-        implements Model_Mapper_CommentInterface
 {
     public function save(Model_Comment $comment)
     {

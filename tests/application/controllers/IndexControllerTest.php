@@ -6,7 +6,6 @@ class IndexControllerTest extends ControllerTestCase
         $this->dispatch('/');
         $this->assertController('index');
         $this->assertAction('index');
-
     }
     
     public function testContactAction()
@@ -25,6 +24,13 @@ class IndexControllerTest extends ControllerTestCase
         $this->dispatch('/contact');
         $this->assertController('index');
         $this->assertAction('contact');
+    }
+    
+    public function testPhotographyAction()
+    {
+        $this->dispatch('/index/photography');
+        $this->assertController('index');
+        $this->assertAction('photography');
     }
     
     public function testAboutAction()

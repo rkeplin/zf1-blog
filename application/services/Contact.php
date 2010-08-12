@@ -27,7 +27,7 @@ class Service_Contact extends Keplin_Service_Abstract
         }
     }
     
-    public function setMapper(Model_Mapper_ContactInterface $mapper)
+    public function setMapper(Model_Mapper_Contact $mapper)
     {
         $this->_mapper = $mapper;
     }

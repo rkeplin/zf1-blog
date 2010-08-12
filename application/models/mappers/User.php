@@ -1,7 +1,6 @@
 <?php
 class Model_Mapper_User 
     extends Keplin_Model_Mapper_Abstract
-        implements Model_Mapper_UserInterface
 {
     private $_user;
     

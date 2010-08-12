@@ -151,12 +151,12 @@ class Service_Post extends Keplin_Service_Abstract
         return $posts;
     }
     
-    public function setPostMapper(Model_Mapper_PostInterface $mapper)
+    public function setPostMapper(Keplin_Model_Mapper_Abstract $mapper)
     {
         $this->_post_mapper = $mapper;
     }
     
-    public function setCategoryMapper(Model_Mapper_CategoryInterface $mapper)
+    public function setCategoryMapper(Keplin_Model_Mapper_Abstract $mapper)
     {
         $this->_category_mapper = $mapper;
     }

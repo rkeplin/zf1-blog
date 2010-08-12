@@ -28,7 +28,7 @@ class Keplin_Auth_Adapter
         return $result;
     }
     
-    public function setMapper(Model_Mapper_UserInterface $mapper)
+    public function setMapper(Keplin_Model_Mapper_Abstract $mapper)
     {
         $this->_mapper = $mapper;
     }

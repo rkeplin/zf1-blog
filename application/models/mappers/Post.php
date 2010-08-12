@@ -1,7 +1,6 @@
 <?php
 class Model_Mapper_Post 
     extends Keplin_Model_Mapper_Abstract
-        implements Model_Mapper_PostInterface
 {
     public $is_published;
     

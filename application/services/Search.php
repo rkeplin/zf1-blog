@@ -21,7 +21,7 @@ class Service_Search
         }
     }
     
-    public function setMapper(Model_Mapper_PostInterface $mapper)
+    public function setMapper(Keplin_Model_Mapper_Abstract $mapper)
     {
         $this->_mapper = $mapper;
     }

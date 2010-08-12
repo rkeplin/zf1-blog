@@ -1,6 +1,5 @@
 <?php
 class Model_Mapper_Contact
-    implements Model_Mapper_ContactInterface
 {
     public function send(Model_Contact $contact)
     {
