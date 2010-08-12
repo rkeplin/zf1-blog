@@ -1,0 +1,20 @@
+<p>I've recently found an interest in photography. Feel free to check out my <a title="Flickr" href="http://www.flickr.com/photos/rkeplin">Flickr</a> page.</p>
+<div id="gallery" class="photography">
+    <?php foreach($this->photos as $photo): ?>
+     <?= $photo->printLink($photo->printImage('t'), 'b') ?>
+    <?php endforeach; ?>
+</div>
+<?= $this->paginationControl($this->photos, 'Sliding', 'pagination.phtml') ?>
+<script type="text/javascript" src="/public/js/fancybox/jquery.mousewheel-3.0.2.pack.js"></script>
+<script type="text/javascript" src="/public/js/fancybox/jquery.fancybox-1.3.1.js"></script>
+<link rel="stylesheet" type="text/css" href="/public/js/fancybox/jquery.fancybox-1.3.1.css" media="screen" />
+<script type="text/javascript">
+    $(document).ready(function() {
+    	$("#gallery a").fancybox({
+    		'titleShow'		: false,
+    		'transitionIn'	: 'elastic',
+    		'transitionOut'	: 'elastic'
+    	});
+    });
+</script>
+    

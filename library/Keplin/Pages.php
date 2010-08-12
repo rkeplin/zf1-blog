@@ -30,6 +30,12 @@ class Keplin_Pages
                         )
                     ),
                     array(
+                        'label' => 'Photography',
+                        'module' => 'default',
+                        'controller' => 'index',
+                        'action' => 'photography',
+                    ),
+                    array(
                         'label' => 'Search',
                         'module' => 'default',
                         'controller' => 'blog',

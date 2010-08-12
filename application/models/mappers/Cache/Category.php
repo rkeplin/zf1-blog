@@ -19,7 +19,7 @@ class Model_Mapper_Cache_Category
     
     public function fetchAll($is_published = 1)
     {
-        $cache_id = 'all_categories' . '_' . $is_published;
+        $cache_id = md5('all_categories' . '_' . $is_published);
         
         if(!($data = $this->_cache->load($cache_id)))
         {

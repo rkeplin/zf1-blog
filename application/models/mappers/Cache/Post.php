@@ -31,7 +31,7 @@ class Model_Mapper_Cache_Post extends Model_Mapper_Post
     
     public function getFromTitle($title)
     {
-        $cache_id = 'post_' . str_replace(array(" ", "+", ".", ":", "-"), "", $title);
+        $cache_id = md5('post_' . $title);
         
         if(!($data = $this->_cache->load($cache_id)))
         {

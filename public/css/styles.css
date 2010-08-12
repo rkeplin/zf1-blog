@@ -468,7 +468,7 @@ input {
 }
 
 /* Code */
-pre {
+.post-content pre {
     background-color: #434B57;
     color: #FFFFFF;
     border: 1px dashed #CCCCCC;
@@ -507,4 +507,23 @@ ul.errors li {
     background-color: #e1dcdc;
     margin: 5px 0px 5px 0px;
     padding: 5px;
+}
+
+/* Photography Styles */
+#content .photography a {
+    border: none;
+}
+#gallery {
+    text-align: center;
+}
+a#fancybox-close {
+    background-image: url('../images/close-sprite.png');
+    background-position: 0 0;
+    height: 42px;
+    width: 54px;
+    top: -2px;
+    right: -8px;
+}
+a#fancybox-close:hover {
+    background-position: 0 100%;
 }

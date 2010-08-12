@@ -39,11 +39,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             'automatic_serialization' => true
         );
         
+        $flickr_front = array(
+            'lifetime' => 86400,
+            'automatic_serialization' => true
+        );
+        
         $back = array(
             'cache_dir' => APPLICATION_PATH . '/../data'
         );
         
         $cache = Zend_Cache::factory('Core', 'File', $front, $back);
+        $flickr_cache = Zend_Cache::factory('Core', 'File', $flickr_front, $back);
+        
         Zend_Registry::set('cache', $cache);
+        Zend_Registry::set('flickr_cache', $flickr_cache);
     }
 }
