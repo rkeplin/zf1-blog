@@ -1,7 +1,6 @@
 <?php
-class Service_Flickr
+class Service_Flickr extends Keplin_Service_Abstract
 {
-    protected $_enable_caching;
     protected $_page;
     protected $_per_page;
     
@@ -47,15 +46,5 @@ class Service_Flickr
     public function getPerPage()
     {
         return $this->_per_page;
-    }
-    
-    public function enableCache()
-    {
-        $this->_enable_caching = true;
-    }
-    
-    public function disableCache()
-    {
-        $this->_enable_caching = false;
     }
 }

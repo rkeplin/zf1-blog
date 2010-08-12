@@ -6,13 +6,12 @@ class Service_Comment
     protected $_form;
     protected $_comment;
     protected $_post;
-    protected $_mapper;
     protected $_observers;    
     
     public function __construct(Model_Post $post)
     {
         $this->_post = $post;
-        $this->setMapper(new Model_Mapper_Cache_Comment());
+        $this->enableCache();
     }
     
     public function create($data)
@@ -29,7 +28,9 @@ class Service_Comment
             $comment->status = 0;
             $comment->date_added = date("Y-m-d H:i:s");
             $this->setComment($comment);
-            $this->_mapper->save($comment);
+            
+            $mapper = Keplin_Model_Mapper_Factory::create('Comment', $this->_enable_caching);
+            $mapper->save($comment);
             
             $this->notify();
             $form->clear();
@@ -39,11 +40,6 @@ class Service_Comment
         {
             $this->_message('form_errors');
         }
-    }
-    
-    public function setMapper(Keplin_Model_Mapper_Abstract $mapper)
-    {
-        $this->_mapper = $mapper;
     }
     
     public function getForm()

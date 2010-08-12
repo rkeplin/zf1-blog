@@ -1,6 +1,5 @@
 <?php
-
-class Keplin_Form_Abstract extends Zend_Form
+abstract class Keplin_Form_Abstract extends Zend_Form
 {
     public function __construct($options = null)
     {

@@ -1,13 +1,12 @@
 <?php
-class Service_Search
+class Service_Search extends Keplin_Service_Abstract
 {
     protected $_form;
     protected $_searchResults;
-    protected $_mapper;
     
     public function __construct()
     {
-        $this->setMapper(new Model_Mapper_Cache_Post());
+        $this->enableCache();
     }
     
     public function findPost($data)
@@ -17,15 +16,12 @@ class Service_Search
         if($form->isValid($data))
         {
             $page = (isset($data['page'])) ? $data['page'] : 1;
-            $this->_searchResults = $this->_mapper->query($data, $page);    
+            
+            $mapper = Keplin_Model_Mapper_Factory::create('Post', $this->_enable_caching);
+            $this->_searchResults = $mapper->query($data, $page);
         }
     }
-    
-    public function setMapper(Keplin_Model_Mapper_Abstract $mapper)
-    {
-        $this->_mapper = $mapper;
-    }
-    
+
     public function getForm()
     {
         if(null === $this->_form)

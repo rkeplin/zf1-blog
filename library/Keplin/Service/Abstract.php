@@ -1,6 +1,7 @@
 <?php
 abstract class Keplin_Service_Abstract
 {
+    protected $_enable_caching;
     private $_msg = null;
     
     protected $_messageTemplate = array(
@@ -26,5 +27,15 @@ abstract class Keplin_Service_Abstract
     public function getMessage()
     {
         return $this->_msg;
+    }
+    
+    public function enableCache()
+    {
+        $this->_enable_caching = true;
+    }
+    
+    public function disableCache()
+    {
+        $this->_enable_caching = false;
     }
 }

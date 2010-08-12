@@ -1,5 +1,5 @@
 <?php
-class Keplin_Model_Mapper_Abstract
+abstract class Keplin_Model_Mapper_Abstract
 {
     protected static $_defaultDb;
     protected $_db;
