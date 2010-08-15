@@ -1,7 +1,7 @@
 <?php
 class Keplin_Mail_Comment
     extends Keplin_Mail
-        implements SplObserver
+        implements SplObserver, Keplin_Mail_CommentInterface
 {
     public function update(SplSubject $subject)
     {
