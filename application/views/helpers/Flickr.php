@@ -13,7 +13,7 @@ class Zend_View_Helper_Flickr extends Zend_View_Helper_Abstract
         
         foreach($photos as $photo)
         {
-            $string .= '<a title="photography by rob" href="/index/photography">' . $photo->printImage('s') . '</a>' . "\r\n";
+            $string .= '<a title="photography by rob" href="/photography">' . $photo->printImage('s') . '</a>' . "\r\n";
         }
         
         return $string;

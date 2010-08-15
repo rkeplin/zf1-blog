@@ -1,8 +1,8 @@
 <?php
-class Service_User extends Keplin_Service_Abstract
+class Service_User extends Keplin_Service_User
 {
     protected $_form;
-
+    
     public function login($data)
     {
         $form = $this->getForm();

@@ -1,5 +1,5 @@
 <?php
-class Service_Post extends Keplin_Service_Abstract
+class Service_Post extends Keplin_Service_Acl
 {
     protected $_form;
 
@@ -8,8 +8,26 @@ class Service_Post extends Keplin_Service_Abstract
         $this->enableCache();
     }
     
+    public function getResourceId()
+    {
+        return 'post';
+    }
+    
+    public function setAcl(Zend_Acl $acl)
+    {
+        if(!$acl->has($this->getResourceId()))
+        {
+            $acl->add($this)
+                ->deny(Model_Role::GUEST, $this, array('create', 'update', 'form', 'editable-blog-list'));
+        }
+        
+        $this->_acl = $acl;
+    }
+    
     public function create($data = array())
     {
+        $this->checkAcl('create');
+        
         $form = $this->getForm();
         
         if($form->isValid($data))
@@ -43,6 +61,8 @@ class Service_Post extends Keplin_Service_Abstract
     
     public function update($data = array())
     {
+        $this->checkAcl('update');
+        
         $form = $this->getForm();
         
         if($form->isValid($data))
@@ -79,6 +99,8 @@ class Service_Post extends Keplin_Service_Abstract
     
     public function getForm($post_id = null)
     {
+        $this->checkAcl('form');
+        
         if(null === $this->_form)
         {
             if(null === $post_id)
@@ -103,6 +125,8 @@ class Service_Post extends Keplin_Service_Abstract
     
     public function getPaged($page = 1)
     {
+        $this->checkAcl('editable-blog-list');
+        
         $mapper = Keplin_Model_Mapper_Factory::create('Post', $this->_enable_caching);
         $mapper->is_published = 0;
         $posts = $mapper->getPagedTitles($page);

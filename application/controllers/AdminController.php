@@ -1,11 +1,22 @@
 <?php
 class AdminController extends Zend_Controller_Action
 {
-    public function indexAction(){}
+    public function indexAction()
+    {
+        $service = new Service_Post();
+        $posts = $service->getPaged($this->_request->getParam('page'));
+        
+        $this->view->posts = $posts;
+    }
     
     public function loginAction()
     {
         $service = new Service_User();
+        
+        if($service->getCurrentUser()->role_id == Model_Role::ADMIN)
+        {
+            $this->_helper->redirector('index');
+        }
         
         if($data = $this->_request->getPost())
         {

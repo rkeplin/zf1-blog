@@ -1,20 +1,19 @@
 <?php
-class Keplin_Auth_Adapter 
-    implements Zend_Auth_Adapter_Interface
+class Keplin_Auth_Adapter implements Zend_Auth_Adapter_Interface
 {
     protected $_user;
-    protected $_mapper;
     
     public function __construct(Model_User $user)
     {
         $this->_user = $user;
-        $this->setMapper(new Model_Mapper_User());
     }
     
     public function authenticate()
     {
         $user = $this->_user;
-        $this->_mapper->login($user);
+        
+        $mapper = Keplin_Model_Mapper_Factory::create('User');
+        $mapper->login($user);
         
         if($user->id)
         {
@@ -26,10 +25,5 @@ class Keplin_Auth_Adapter
         }
         
         return $result;
-    }
-    
-    public function setMapper(Keplin_Model_Mapper_Abstract $mapper)
-    {
-        $this->_mapper = $mapper;
     }
 }

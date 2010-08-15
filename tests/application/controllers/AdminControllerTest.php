@@ -3,23 +3,21 @@ class AdminControllerTest extends ControllerTestCase
 {
     public function testLogout()
     {
+        $this->_login();
         $this->dispatch('/admin/logout/');
-        $this->assertController('admin');
-        $this->assertAction('login');
     }
     
     public function testIndex()
     {
         $this->dispatch('/admin/index/');
-        $this->assertController('admin');
-        $this->assertAction('login');
+        $this->assertController('error');
+        $this->assertAction('error');
         
         $this->_login();
         $this->dispatch('/admin/index/');
         $this->assertController('admin');
         $this->assertAction('index');
         $this->_logout();
-        
     }
     
     public function testLogin()
@@ -35,8 +33,8 @@ class AdminControllerTest extends ControllerTestCase
     public function testCreatePost()
     {
         $this->dispatch('/admin/create-post/');
-        $this->assertController('admin');
-        $this->assertAction('login');
+        $this->assertController('error');
+        $this->assertAction('error');
         
         $this->_login();
         $this->dispatch('/admin/create-post/');
@@ -52,7 +50,7 @@ class AdminControllerTest extends ControllerTestCase
                 'is_published' => 1
              ));
         $this->dispatch('/admin/create-post/');
-        echo $this->getResponse()->getBody(false);
+        //echo $this->getResponse()->getBody(false);
         $this->assertController('admin');
         $this->assertAction('create-post');
         
@@ -63,25 +61,11 @@ class AdminControllerTest extends ControllerTestCase
         $this->_logout();
     }
     
-    public function testViewPosts()
-    {
-        $this->dispatch('/admin/view-posts/');
-        $this->assertController('admin');
-        $this->assertAction('login');
-        
-        $this->_login();
-        $this->dispatch('/admin/view-posts/');
-        $this->assertController('admin');
-        $this->assertAction('view-posts');
-        $this->_logout();
-        
-    }
-    
     public function testEditPost()
     {
         $this->dispatch('/admin/edit-post/id/97');
-        $this->assertController('admin');
-        $this->assertAction('login');
+        $this->assertController('error');
+        $this->assertAction('error');
         
         $this->_login();
         $this->dispatch('/admin/edit-post/');

@@ -82,6 +82,12 @@ class Keplin_Pages
                         )
                     ),
                     array(
+                        'label' => 'Login',
+                        'module' => 'default',
+                        'controller' => 'admin',
+                        'action' => 'login',
+                    ),
+                    array(
                         'label' => 'Admin Panel',
                         'module' => 'default',
                         'controller' => 'admin',
@@ -95,26 +101,11 @@ class Keplin_Pages
                                 'action' => 'create-post',
                             ),
                             array(
-                                'label' => 'Login',
+                                'label' => 'Edit Post',
                                 'module' => 'default',
                                 'controller' => 'admin',
-                                'action' => 'login',
-                            ),
-                            array(
-                                'label' => 'View Posts',
-                                'module' => 'default',
-                                'controller' => 'admin',
-                                'action' => 'view-posts',
-                                'pages' =>
-                                array(
-                                    array(
-                                        'label' => 'Edit Post',
-                                        'module' => 'default',
-                                        'controller' => 'admin',
-                                        'action' => 'edit-post',
-                                    )
-                                )
-                            ),
+                                'action' => 'edit-post',
+                            )
                         )
                     )
                 )

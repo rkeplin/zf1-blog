@@ -67,7 +67,7 @@
 				<div class="leftPad">
 					<h3>About Rob</h3>
 					<div id="picture">
-						<img alt="rob keplin" src="/public/images/rob.jpg" />
+						<img alt="rob keplin" src="/public/images/rob.png" />
 					</div>
 					<div class="about">
 					   I'm a web application developer, currently enjoying life in New England (USA).
@@ -81,7 +81,7 @@
                     <h3 class="sector">Photography</h3>
                     <div class="photography">
                         <?= $this->flickr(3) ?>
-                        <a title="more" href="/index/photography">more...</a>
+                        <a title="more" href="/photography">more...</a>
                     </div>
 					
 					<h3 class="sector">Recent Posts</h3>
@@ -118,7 +118,7 @@
 			<a <?php (($controller == 'blog') && ($action == 'archives')) ? print 'class="selected"' : ''; ?> title="Archive" href="/blog/archives/">Archive</a>
             <a <?php (($controller == 'index') && ($action == 'contact')) ? print 'class="selected"' : ''; ?> title="Contact Rob" href="/contact/">Contact</a>
             <a <?php (($controller == 'index') && ($action == 'about')) ? print 'class="selected"' : ''; ?> title="About" href="/about/">About</a>
-			<a <?php ($controller == 'admin') ? print 'class="selected"' : ''; ?> title="Admin Panel" href="/admin/">Administration</a>
+			<a <?php ($controller == 'admin') ? print 'class="selected"' : ''; ?> title="Admin Panel" href="/admin/login/">Administration</a>
 			<br />
             <!--
             Copyright &copy; 2010. Rob Keplin. All Rights Reserved.

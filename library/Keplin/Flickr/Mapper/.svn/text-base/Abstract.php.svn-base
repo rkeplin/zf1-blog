@@ -1,8 +1,8 @@
 <?php
 abstract class Keplin_Flickr_Mapper_Abstract
 {
-    const API_KEY = 'xxxxxx';
-    const SECRET = 'xxxxxx';
+    const API_KEY = 'c5865b5d7f861e6a9ecccdf8740fa8e1';
+    const SECRET = 'd5a6bb20ad7775c4';
     const BASE_URL = 'http://api.flickr.com/services/rest/';
    
     private $_params;
