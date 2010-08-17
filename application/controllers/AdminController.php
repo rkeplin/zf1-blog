@@ -4,6 +4,11 @@ class AdminController extends Zend_Controller_Action
     public function indexAction()
     {
         $service = new Service_Post();
+        
+        if(!$service->checkAcl('view-list')) {
+            throw new Keplin_ProhibitedException('Viewing Editable Post List: Access Prohibited.');
+        }
+        
         $posts = $service->getPaged($this->_request->getParam('page'));
         
         $this->view->posts = $posts;
@@ -45,6 +50,10 @@ class AdminController extends Zend_Controller_Action
     {
         $service = new Service_Post();
         
+        if(!$service->checkAcl('create')) {
+            throw new Keplin_ProhibitedException('Creating Posts: Access Prohibited.');
+        }
+        
         if($this->_request->isPost())
         {
             $service->create($this->_request->getParams());
@@ -54,17 +63,14 @@ class AdminController extends Zend_Controller_Action
         $this->view->form = $service->getForm();
     }
     
-    public function viewPostsAction()
-    {
-       $service = new Service_Post();
-       $posts = $service->getPaged($this->_request->getParam('page'));
-       
-       $this->view->posts = $posts;
-    }
-    
     public function editPostAction()
     {
         $service = new Service_Post();
+        
+        if(!$service->checkAcl('edit')) {
+            throw new Keplin_ProhibitedException('Editing Posts: Access Prohibited.');
+        }
+        
         $form = $service->getForm($this->_request->getParam('id'));
         
         if($this->_request->isPost())

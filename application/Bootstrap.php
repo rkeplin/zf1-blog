@@ -13,6 +13,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $this->bootstrap('db');
         Keplin_Model_Mapper_Abstract::setDefaultDb($this->getPluginResource('db')->getDbAdapter());
+        Keplin_Flickr_Mapper_Abstract::setDefaultOptions($this->getOption('flickr'));
     }
     
     public function _initProfiler()

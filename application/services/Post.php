@@ -8,26 +8,8 @@ class Service_Post extends Keplin_Service_Acl
         $this->enableCache();
     }
     
-    public function getResourceId()
-    {
-        return 'post';
-    }
-    
-    public function setAcl(Zend_Acl $acl)
-    {
-        if(!$acl->has($this->getResourceId()))
-        {
-            $acl->add($this)
-                ->deny(Model_Role::GUEST, $this, array('create', 'update', 'form', 'editable-blog-list'));
-        }
-        
-        $this->_acl = $acl;
-    }
-    
     public function create($data = array())
     {
-        $this->checkAcl('create');
-        
         $form = $this->getForm();
         
         if($form->isValid($data))
@@ -61,8 +43,6 @@ class Service_Post extends Keplin_Service_Acl
     
     public function update($data = array())
     {
-        $this->checkAcl('update');
-        
         $form = $this->getForm();
         
         if($form->isValid($data))
@@ -99,8 +79,6 @@ class Service_Post extends Keplin_Service_Acl
     
     public function getForm($post_id = null)
     {
-        $this->checkAcl('form');
-        
         if(null === $this->_form)
         {
             if(null === $post_id)
@@ -125,8 +103,6 @@ class Service_Post extends Keplin_Service_Acl
     
     public function getPaged($page = 1)
     {
-        $this->checkAcl('editable-blog-list');
-        
         $mapper = Keplin_Model_Mapper_Factory::create('Post', $this->_enable_caching);
         $mapper->is_published = 0;
         $posts = $mapper->getPagedTitles($page);
@@ -186,5 +162,21 @@ class Service_Post extends Keplin_Service_Acl
         $posts = $mapper->getFromArchive($year, $page);
         
         return $posts;
+    }
+    
+    public function setAcl(Zend_Acl $acl)
+    {
+        if(!$acl->has($this->getResourceId()))
+        {
+            $acl->add($this)
+                ->deny(Model_Role::GUEST, $this, array('create', 'edit', 'view-list'));
+        }
+        
+        $this->_acl = $acl;
+    }
+    
+    public function getResourceId()
+    {
+        return 'post';
     }
 }
