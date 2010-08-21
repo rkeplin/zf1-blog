@@ -58,8 +58,10 @@ class BlogController extends Zend_Controller_Action
     {
         $service = new Service_Post();
         $post = $service->getFromTitle($this->_request->getParam('title'));
+        $edit_link = $service->getEditLink($post->id);
 
-        $service = new Service_Comment($post);
+        $service = new Service_Comment();
+        $service->setPost($post);
         $service->attach(new Keplin_Mail_Author());
         $service->attach(new Keplin_Mail_Commenter());
         $service->attach(new Keplin_Mail_Comment());
@@ -72,5 +74,6 @@ class BlogController extends Zend_Controller_Action
         $this->view->post = $post;
         $this->view->message = $service->getMessage();
         $this->view->form = $service->getForm();
+        $this->view->edit_link = $edit_link;
     }
 }

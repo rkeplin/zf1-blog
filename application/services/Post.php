@@ -164,6 +164,14 @@ class Service_Post extends Keplin_Service_Acl
         return $posts;
     }
     
+    public function getEditLink($post_id)
+    {
+        if($this->checkAcl('edit'))
+        {
+            return '<a title="edit" href="/admin/edit-post/id/' . $post_id . '/">edit</a>';   
+        }
+    }
+    
     public function setAcl(Zend_Acl $acl)
     {
         if(!$acl->has($this->getResourceId()))

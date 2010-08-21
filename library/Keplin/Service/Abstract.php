@@ -10,8 +10,8 @@ abstract class Keplin_Service_Abstract
         'form_errors' => 'Please fix the errors below, detailed on the comment form.',
         'post_create' => 'Successfully created post!',
         'post_update' => 'Successfully updated post!',
-        'contact' => 'Successfully sent message to Rob!'
-        
+        'contact' => 'Successfully sent message to Rob!',
+        'delete-log' => 'Successfully deleted log.'
     );
     
     protected function _message($key)

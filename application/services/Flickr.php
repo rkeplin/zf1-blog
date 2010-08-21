@@ -4,6 +4,12 @@ class Service_Flickr extends Keplin_Service_Abstract
     protected $_page;
     protected $_per_page;
     
+    public function __construct()
+    {
+        $this->enableCache();
+        $this->setPerPage(24);
+    }
+    
     public function fetchPhotosFromUsername($username)
     {
         $user = $this->fetchUser($username);

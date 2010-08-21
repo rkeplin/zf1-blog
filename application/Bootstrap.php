@@ -1,6 +1,21 @@
 <?php
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
+    protected function _initPluginCache()
+    {
+        if($this->getEnvironment() == 'production')
+        {
+            $file = APPLICATION_PATH . '/../data/plugin-cache.php';
+            
+            if(file_exists($file)) 
+            {
+                include_once $file;
+            }
+            
+            Zend_Loader_PluginLoader::setIncludeFileCache($file);   
+        }
+    }
+    
     protected function _initDoctype()
     {
         $this->bootstrap('view');
@@ -18,7 +33,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     
     public function _initProfiler()
     {
-        if(APPLICATION_ENV == 'development')
+        if($this->getEnvironment() == 'development')
         {
             $profiler = new Zend_Db_Profiler_Firebug('All DB Queries');
             $profiler->setEnabled(true);

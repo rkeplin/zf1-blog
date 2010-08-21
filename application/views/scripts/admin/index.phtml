@@ -2,7 +2,7 @@
 
 <div class="post">
     <h1>Administrative Panel</h1>
-    <a href="/admin/create-post">Create a post</a> | <a href="/admin/logout">Logout</a>
+    <?= $this->adminLinks() ?>
     
     <ul class="latest-blogs">
     <?php foreach($this->posts as $post) : ?>

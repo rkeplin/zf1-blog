@@ -105,6 +105,18 @@ class Keplin_Pages
                                 'module' => 'default',
                                 'controller' => 'admin',
                                 'action' => 'edit-post',
+                            ),
+                            array(
+                                'label' => 'Delete Log',
+                                'module' => 'default',
+                                'controller' => 'admin',
+                                'action' => 'delete-log',
+                            ),
+                            array(
+                                'label' => 'Comments',
+                                'module' => 'default',
+                                'controller' => 'admin',
+                                'action' => 'comments',
                             )
                         )
                     )

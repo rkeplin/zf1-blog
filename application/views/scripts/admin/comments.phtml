@@ -1,0 +1,34 @@
+<?php $this->page_title = 'Rob Keplin\'s Blog &raquo; Admin &raquo; Manage Comments'; ?>
+
+<div class="post">
+    <h1>Manage Comments</h1>
+    <?= $this->adminLinks() ?>
+    
+    <table cellspacing="0" cellpadding="0" width="100%" class="comment-table">
+        <thead>
+            <th width="70">Post</th>
+            <th>Comment</th>
+            <th width="70"></th>
+        </thead>
+        <tbody>
+            <?php $index = 0; ?>
+            <?php foreach($this->comments as $comment) : ?>
+                <?php $index++; ?>
+                <tr id="comment-<?= $comment->id ?>" class="<?php print ($index % 2 == 0) ? 'odd' : 'even'; ?>">
+                    <td>
+                        <a title="post" href="/admin/edit-post/id/<?= $comment->post_id ?>/"><?= $comment->post_id ?></a>
+                    </td>
+                    <td>
+                        <?= $comment->comment ?> 
+                        <p class="author">- <?= $comment->name ?> (<?= $comment->ip_address ?>)</p>
+                    </td>
+                    <td>
+                        <a title="delete comment" href="javascript:deleteComment('<?= $comment->id ?>')">delete</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <?= $this->paginationControl($this->comments, 'sliding', 'pagination.phtml') ?>
+    <?= $this->render('delete-comment-js.phtml'); ?>
+</div>

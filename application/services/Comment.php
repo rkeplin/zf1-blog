@@ -1,6 +1,6 @@
 <?php
 class Service_Comment 
-    extends Keplin_Service_Abstract
+    extends Keplin_Service_Acl
         implements SplSubject
 {
     protected $_form;
@@ -8,9 +8,8 @@ class Service_Comment
     protected $_post;
     protected $_observers;    
     
-    public function __construct(Model_Post $post)
+    public function __construct()
     {
-        $this->_post = $post;
         $this->enableCache();
     }
     
@@ -40,6 +39,19 @@ class Service_Comment
         {
             $this->_message('form_errors');
         }
+    }
+    
+    public function fetchPaged($page)
+    {
+        $mapper = Keplin_Model_Mapper_Factory::create('Comment', $this->_enable_caching);
+        $comments = $mapper->fetchPaged($page);
+        return $comments;
+    }
+    
+    public function delete($comment_id)
+    {
+        $mapper = Keplin_Model_Mapper_Factory::create('Comment', $this->_enable_caching);
+        $mapper->delete($comment_id);
     }
     
     public function getForm()
@@ -91,5 +103,21 @@ class Service_Comment
         {
             $observer->update($this);
         }
-    }        
+    }
+    
+    public function getResourceId()
+    {
+        return 'comment';
+    }
+    
+    public function setAcl(Zend_Acl $acl)
+    {
+        if(!$acl->has($this->getResourceId()))
+        {
+            $acl->add($this)
+                ->deny(Model_Role::GUEST, $this, array('view-paged', 'delete'));
+        }
+        
+        $this->_acl = $acl;
+    }
 }

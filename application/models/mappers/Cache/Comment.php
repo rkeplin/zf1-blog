@@ -15,4 +15,10 @@ class Model_Mapper_Cache_Comment extends Model_Mapper_Comment
         parent::save($comment);
         $this->_cache->clean('all', array('post'));
     }
+    
+    public function delete($id)
+    {
+        parent::delete($id);
+        $this->_cache->clean('all', array('post'));
+    }
 }

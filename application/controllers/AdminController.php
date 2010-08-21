@@ -1,6 +1,6 @@
 <?php
 class AdminController extends Zend_Controller_Action
-{
+{   
     public function indexAction()
     {
         $service = new Service_Post();
@@ -63,6 +63,31 @@ class AdminController extends Zend_Controller_Action
         $this->view->form = $service->getForm();
     }
     
+    public function commentsAction()
+    {
+        $service = new Service_Comment();
+        
+        if(!$service->checkAcl('view-paged')) {
+            throw new Keplin_ProhibitedException('Editing Posts: Access Prohibited.');
+        }
+        
+        $this->view->comments = $service->fetchPaged($this->_request->getParam('page'));
+    }
+    
+    public function deleteCommentAction()
+    {
+        $service = new Service_Comment();
+        
+        if(!$service->checkAcl('delete')) {
+            throw new Keplin_ProhibitedException('Deleting Comments: Access Prohibited.');
+        }
+        
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        
+        $service->delete($this->_request->getParam('id'));
+    }
+    
     public function editPostAction()
     {
         $service = new Service_Post();
@@ -80,5 +105,46 @@ class AdminController extends Zend_Controller_Action
         
         $this->view->message = $service->getMessage();
         $this->view->form = $form;
+    }
+    
+    public function downloadLogAction()
+    {
+        $service = new Service_Log();
+        
+        if(!$service->checkAcl('view')) {
+            throw new Keplin_ProhibitedException('Viewing Log: Access Prohibited.');
+        }
+        
+        if(!$service->logExists()) {
+            throw new Exception('Log doesn\'t exist.');
+        }
+        
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        
+        $service->display();
+    }
+    
+    public function deleteLogAction()
+    {
+        $service = new Service_Log();
+        
+        if(!$service->checkAcl('delete'))
+        {
+            throw new Keplin_ProhibitedException('Delete Log: Access Prohibited.');
+        }
+        
+        if(!$service->logExists())
+        {
+            throw new Exception('Log doesn\'t exist.');
+        }
+        
+        if($this->_request->isPost())
+        {
+            $service->delete();   
+        }
+        
+        $this->view->form = $service->getForm();
+        $this->view->message = $service->getMessage();
     }
 }

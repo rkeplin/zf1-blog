@@ -1,0 +1,10 @@
+<script type="text/javascript">
+    function deleteComment(id)
+    {
+        var url = '/admin/delete-comment/id/' + id;
+        
+        $.get(url, function(data) {
+            $("#comment-" + id).fadeOut(400);
+        });
+    }
+</script>

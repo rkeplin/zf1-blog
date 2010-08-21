@@ -14,8 +14,6 @@ class IndexController extends Zend_Controller_Action
     public function photographyAction()
     {
         $service = new Service_Flickr();
-        $service->enableCache();
-        $service->setPerPage(24);
         $service->setPage($this->_request->getParam('page'));
         
         $photos = $service->fetchPhotosFromUsername('rkeplin');

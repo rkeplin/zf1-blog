@@ -1,16 +1,22 @@
 <?php
 abstract class Keplin_Flickr_Mapper_Abstract
 {
-    const API_KEY = 'xxxxxx';
-    const SECRET = 'xxxxxx';
     const BASE_URL = 'http://api.flickr.com/services/rest/';
-   
+    
+    private static $_defaultOptions;
     private $_params;
    
     public function __construct()
     {
-        $this->_setOption('api_key', self::API_KEY);
-        $this->_setOption('format', 'php_serial');
+        $this->_params = self::$_defaultOptions;
+    }
+    
+    public static function setDefaultOptions(array $options)
+    {
+        if(null === self::$_defaultOptions)
+        {
+            self::$_defaultOptions = $options;
+        }
     }
     
     protected function _buildUrl()

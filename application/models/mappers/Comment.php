@@ -34,14 +34,20 @@ class Model_Mapper_Comment
         return new Model_CommentCollection($comment);
     }
     
-    public function getPagedComments($page = 1)
+    public function delete($id)
     {
-        $select = $this->_db->select()->from(array('c' => 'comments'));
+        $where[] = 'id = ' . $this->_db->quote($id);
+        $this->_db->delete('comments', $where);
+    }
+    
+    public function fetchPaged($page = 1, $per_page = 10)
+    {
+        $select = $this->_db->select()->from(array('c' => 'comments'))->order('date_added DESC');
         
         $adapter = new Keplin_Paginator_Adapter('Model_CommentCollection', $select);
         $paginator = new Zend_Paginator($adapter);
         $paginator->setCurrentPageNumber($page);
-        $paginator->setItemCountPerPage(10);
+        $paginator->setItemCountPerPage($per_page);
         
         return $paginator;
     }
