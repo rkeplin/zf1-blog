@@ -527,3 +527,22 @@ a#fancybox-close {
 a#fancybox-close:hover {
     background-position: 0 100%;
 }
+
+/* Comment Table */
+table.comment-table th {
+    background: #888888;
+    color: #DDDDDD;
+    text-align: left;
+    padding: 2px;
+}
+table.comment-table tr.odd td {
+    background-color: #E2DCCE;
+} 
+table.comment-table tr.even td {
+    background-color: #F5FEEF;
+} 
+
+table.comment-table p.author {
+    font-style: italic;
+    font-size: 10px;
+}
