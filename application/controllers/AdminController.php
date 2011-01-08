@@ -18,7 +18,7 @@ class AdminController extends Zend_Controller_Action
     {
         $service = new Service_User();
         
-        if($service->getCurrentUser()->role_id == Model_Role::ADMIN)
+        if(is_object($service->getCurrentUser()->getRole()) && ($service->getCurrentUser()->getRole()->getId() == Blog\Entity\Role::ADMIN))
         {
             $this->_helper->redirector('index');
         }
@@ -57,6 +57,7 @@ class AdminController extends Zend_Controller_Action
         if($this->_request->isPost())
         {
             $service->create($this->_request->getParams());
+            $service->getEntityManager()->flush();
         }
         
         $this->view->message = $service->getMessage();
@@ -86,6 +87,8 @@ class AdminController extends Zend_Controller_Action
         $this->_helper->viewRenderer->setNoRender();
         
         $service->delete($this->_request->getParam('id'));
+        
+        $service->getEntityManager()->flush();
     }
     
     public function editPostAction()
@@ -101,6 +104,7 @@ class AdminController extends Zend_Controller_Action
         if($this->_request->isPost())
         {
             $service->update($this->_request->getParams());
+            $service->getEntityManager()->flush();
         }
         
         $this->view->message = $service->getMessage();

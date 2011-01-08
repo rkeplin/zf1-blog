@@ -7,7 +7,7 @@ class ErrorController extends Zend_Controller_Action
         
         $logger = new Zend_Log();
         $writer = new Zend_Log_Writer_Stream(dirname(APPLICATION_PATH) . '/logs/exceptions.log');
-        $logger->addWriter($writer);
+        //$logger->addWriter($writer);
         //$logger->addWriter(new Keplin_Log_Writer_Email());
         
         switch ($errors->type) {
@@ -19,7 +19,7 @@ class ErrorController extends Zend_Controller_Action
                 $this->getResponse()->setHttpResponseCode(404);
                 $this->view->message = 'Page not found';
                 
-                $logger->log($errors->exception->getMessage(), Zend_Log::NOTICE);
+                //$logger->log($errors->exception->getMessage(), Zend_Log::NOTICE);
                 break;
             default:
                 // application error
@@ -28,9 +28,17 @@ class ErrorController extends Zend_Controller_Action
                 
                 if(get_class($errors->exception) == 'Keplin_ProhibitedException') {
                     $this->view->message = 'Access Prohibited.';
-                    $logger->log($errors->exception->getMessage(), Zend_Log::WARN);
+                    //$logger->log($errors->exception->getMessage(), Zend_Log::WARN);
                 } else {
-                    $logger->log($errors->exception->getMessage(), Zend_Log::ERR);
+                    
+                    $message = $errors->exception->getMessage();
+                    $message .= '<br><br>';
+                    $message .= $errors->exception->getTraceAsString();
+                    $message .= '<br><br>';
+                    $message .= $_SERVER['REQUEST_URI'] . '<br><br>';
+		    $message .= 'Referring URI' . $_SERVER['HTTP_REFERER'];
+                    
+                    //$logger->log($message, Zend_Log::ERR);
                 }
                 
                 break;

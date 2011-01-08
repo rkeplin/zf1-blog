@@ -17,6 +17,7 @@ abstract class Keplin_Service_Acl extends Keplin_Service_User implements Zend_Ac
     
     public function checkAcl($action)
     {
+        
         return $this->getAcl()->isAllowed($this->getCurrentUser(), $this, $action);
     }
 }

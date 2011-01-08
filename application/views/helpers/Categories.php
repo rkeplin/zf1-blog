@@ -4,8 +4,8 @@ class Zend_View_Helper_Categories extends Zend_View_Helper_Abstract
 {
     public function categories($name = null)
     {       
-        $mapper = new Model_Mapper_Cache_Category();
-        $categories = $mapper->fetchAll();
+        $service = new Service_Category();
+        $categories = $service->fetchAll();
         
         $string = '';
         foreach($categories as $category)
@@ -20,7 +20,7 @@ class Zend_View_Helper_Categories extends Zend_View_Helper_Abstract
                 $class = '';
             }
             
-            $string .= '<li><a '. $class .' title="'. $category->name .'" href="/blog/category/'. urlencode($category->name) .'/">'. $category->name .' ('. $category->num_posts .')</a></li>';
+            $string .= '<li><a '. $class .' title="'. $category->name .'" href="/blog/category/'. urlencode($category->name) .'/">'. $category->name . '</a></li>';
         }
         
         return $string;

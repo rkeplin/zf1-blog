@@ -8,19 +8,19 @@ abstract class Keplin_Flickr_Mapper_Factory
             case 'User':
                 if($enable_caching) 
                 {
-                    return new Model_Mapper_Cache_Flickr_User();    
+                    return new Keplin_Flickr_Mapper_Cache_User();
                 }
                 
-                return new Model_Mapper_Flickr_User();
+                return new Keplin_Flickr_Mapper_User();
                 
                 break;
             case 'Photo':
                 if($enable_caching) 
                 {
-                    return new Model_Mapper_Cache_Flickr_Photo();        
+                    return new Keplin_Flickr_Mapper_Cache_Photo();
                 }
                 
-                return new Model_Mapper_Flickr_Photo();
+                return new Keplin_Flickr_Mapper_Photo();
                 
                 break;
             default:

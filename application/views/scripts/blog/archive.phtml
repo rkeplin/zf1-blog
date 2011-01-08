@@ -5,7 +5,7 @@
     <?php if(count($this->posts) > 0) : ?>
     <ul class="latest-blogs">
     <?php foreach($this->posts as $post) : ?>
-        <li><a title="<?= $post->title ?>" href="/blog/view/<?= $post->category->name ?>/<?= $post->title ?>/"><?= $post->title ?></a></li>
+        <li><a title="<?= $post->title ?>" href="/blog/view/<?= urlencode($post->category->name) ?>/<?= urlencode($post->title) ?>/"><?= $post->title ?></a></li>
     <?php endforeach; ?>
     </ul>
     

@@ -3,12 +3,13 @@ class Service_Search extends Keplin_Service_Abstract
 {
     protected $_form;
     protected $_searchResults;
-    
+    protected $_repository;
+
     public function __construct()
     {
-        $this->enableCache();
+        $this->_repository = $this->getEntityManager()->getRepository('Blog\Entity\Post');
     }
-    
+
     public function findPost($data)
     {
         $form = $this->getForm();
@@ -16,9 +17,8 @@ class Service_Search extends Keplin_Service_Abstract
         if($form->isValid($data))
         {
             $page = (isset($data['page'])) ? $data['page'] : 1;
-            
-            $mapper = Keplin_Model_Mapper_Factory::create('Post', $this->_enable_caching);
-            $this->_searchResults = $mapper->query($data, $page);
+
+            $this->_searchResults = $this->_repository->search($data, $page);
         }
     }
 

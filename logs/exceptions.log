@@ -1,0 +1,21 @@
+2010-08-21T16:43:12+00:00 ERR (3): Log doesn't exist.
+2010-08-21T16:49:00+00:00 NOTICE (5): Action "comments" does not exist and was not trapped in __call()
+2010-08-21T16:50:43+00:00 NOTICE (5): Action "comments" does not exist and was not trapped in __call()
+2010-08-21T16:52:20+00:00 NOTICE (5): Action "comments" does not exist and was not trapped in __call()
+2010-08-21T16:52:33+00:00 NOTICE (5): Action "comments" does not exist and was not trapped in __call()
+2010-08-21T16:53:36+00:00 NOTICE (5): Action "comments" does not exist and was not trapped in __call()
+2010-08-21T16:56:23+00:00 NOTICE (5): Action "comments" does not exist and was not trapped in __call()
+2010-08-21T17:03:18+00:00 ERR (3): script 'admin/comments.phtml' not found in path (C:/wamp/www/robkeplin.com 2.0/application/views\scripts/)
+2010-08-21T17:12:57+00:00 ERR (3): Unrecognized method 'orderBy()'
+2010-08-21T17:36:20+00:00 ERR (3): SQLSTATE[HY093]: Invalid parameter number: no parameters were bound
+2010-08-21T18:06:17+00:00 WARN (4): Viewing Editable Post List: Access Prohibited.
+2010-08-21T18:06:19+00:00 WARN (4): Creating Posts: Access Prohibited.
+2010-08-21T18:06:21+00:00 WARN (4): Editing Posts: Access Prohibited.
+2010-08-22T14:32:39+00:00 NOTICE (5): Invalid controller specified (robots.txt)
+2010-08-22T14:32:48+00:00 NOTICE (5): Invalid controller specified (robots.txt)
+2010-08-22T14:34:32+00:00 NOTICE (5): Invalid controller specified (robots.txt)
+2010-08-22T14:34:34+00:00 NOTICE (5): Invalid controller specified (robots.txt)
+2010-08-27T02:04:26+00:00 WARN (4): Viewing Editable Post List: Access Prohibited.
+2010-08-27T02:04:28+00:00 WARN (4): Creating Posts: Access Prohibited.
+2010-08-27T02:04:30+00:00 WARN (4): Editing Posts: Access Prohibited.
+2010-11-22T01:51:03+00:00 WARN (4): Viewing Editable Post List: Access Prohibited.

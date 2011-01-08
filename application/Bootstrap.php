@@ -1,4 +1,5 @@
 <?php
+
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
     protected function _initPluginCache()
@@ -21,26 +22,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $this->bootstrap('view');
         $view = $this->getResource('view');
         $view->doctype('XHTML1_STRICT');
-        $view->setHelperPath(APPLICATION_PATH . '/views/helpers');
     }
     
     protected function _initMapper()
     {
-        $this->bootstrap('db');
-        Keplin_Model_Mapper_Abstract::setDefaultDb($this->getPluginResource('db')->getDbAdapter());
         Keplin_Flickr_Mapper_Abstract::setDefaultOptions($this->getOption('flickr'));
-    }
-    
-    public function _initProfiler()
-    {
-        if($this->getEnvironment() == 'development')
-        {
-            $profiler = new Zend_Db_Profiler_Firebug('All DB Queries');
-            $profiler->setEnabled(true);
-            
-            $db = Keplin_Model_Mapper_Abstract::getDefaultDb();
-            $db->setProfiler($profiler);   
-        }
     }
     
     public function _initMailer()
@@ -51,12 +37,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     public function _initCache()
     {
         $front = array(
-            'lifetime' => 2678400,
-            'automatic_serialization' => true
-        );
-        
-        $flickr_front = array(
-            'lifetime' => 86400,
+            'lifetime' => 36000,
             'automatic_serialization' => true
         );
         
@@ -65,9 +46,49 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         );
         
         $cache = Zend_Cache::factory('Core', 'File', $front, $back);
-        $flickr_cache = Zend_Cache::factory('Core', 'File', $flickr_front, $back);
+
+        Zend_Registry::set('flickr_cache', $cache);
+    }
+
+    public function _initAutoloader()
+    {
+        require_once APPLICATION_PATH . '/../library/Doctrine/Common/ClassLoader.php';
+
+        $autoloader = \Zend_Loader_Autoloader::getInstance();
+
+        $symfonyAutoloader = new \Doctrine\Common\ClassLoader('Symfony');
+        $autoloader->pushAutoloader(array($symfonyAutoloader, 'loadClass'), 'Symfony');
+
+        $doctrineExtensionsAutoloader = new \Doctrine\Common\ClassLoader('DoctrineExtensions');
+        $autoloader->pushAutoloader(array($doctrineExtensionsAutoloader, 'loadClass'), 'DoctrineExtensions');
+
+        $doctrineAutoloader = new \Doctrine\Common\ClassLoader('Doctrine');
+        $autoloader->pushAutoloader(array($doctrineAutoloader, 'loadClass'), 'Doctrine');
+
+        $doctrineAutoloader = new \Doctrine\Common\ClassLoader('Blog');
+        $autoloader->pushAutoloader(array($doctrineAutoloader, 'loadClass'), 'Blog');
+    }
+
+    public function _initEntityManager()
+    {
+        $cache = new \Doctrine\Common\Cache\ArrayCache;
+        $config = new \Doctrine\ORM\Configuration;
+        $config->setMetadataCacheImpl($cache);
         
-        Zend_Registry::set('cache', $cache);
-        Zend_Registry::set('flickr_cache', $flickr_cache);
+        $driverImpl = $config->newDefaultAnnotationDriver(APPLICATION_PATH . '/../library/Blog/Entity');
+        $config->setMetadataDriverImpl($driverImpl);
+        $config->setQueryCacheImpl($cache);
+        $config->setProxyDir(APPLICATION_PATH . '/../library/Blog/Entity/Proxy');
+        $config->setProxyNamespace('Blog\Entity\Proxy');
+        $config->setAutoGenerateProxyClasses(true);
+        $config->addCustomStringFunction('YEAR', 'Blog\Query\AST\Year');
+
+        $options = $this->getOption('doctrine');
+        
+        $em = \Doctrine\ORM\EntityManager::create($options['db'], $config);
+
+        Keplin_Service_Abstract::setDefaultEntityManager($em);
+        
+        return $em;
     }
 }

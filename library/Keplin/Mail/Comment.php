@@ -9,7 +9,7 @@ class Keplin_Mail_Comment
         $this->send($comment, $subject->getPost());
     }
     
-    public function send(Model_Comment $comment, Model_Post $post)
+    public function send(Blog\Entity\Comment $comment, Blog\Entity\Post $post)
     {
         $mail = new Zend_Mail();
         $mail->setSubject('Comment posted on robkeplin.com');

@@ -3,7 +3,7 @@ abstract class Keplin_Service_User extends Keplin_Service_Abstract
 {
     protected $_current_user;
     
-    public function setCurrentUser(Model_User $user)
+    public function setCurrentUser(Blog\Entity\User $user)
     {
         $this->_current_user = $user;
     }
@@ -16,8 +16,8 @@ abstract class Keplin_Service_User extends Keplin_Service_Abstract
             
             if(!$auth->hasIdentity())
             {
-                $user = new Model_User();
-                $user->role_id = Model_Role::GUEST;
+                $user = new Blog\Entity\User();
+                $user->setRole(Blog\Entity\Role::GUEST);
             }
             else
             {
@@ -26,7 +26,7 @@ abstract class Keplin_Service_User extends Keplin_Service_Abstract
             
             $this->setCurrentUser($user);
         }
-        
+
         return $this->_current_user;
     }
 }

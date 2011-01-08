@@ -49,8 +49,8 @@ class Form_Post extends Keplin_Form_Abstract
     
     protected function _getCategories()
     {
-        $mapper = new Model_Mapper_Category();
-        $categories = $mapper->fetchAll(0);
+        $service = new Service_Category();
+        $categories = $service->fetchAll();
         
         foreach($categories as $category)
         {

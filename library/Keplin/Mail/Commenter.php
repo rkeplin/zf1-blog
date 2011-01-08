@@ -15,7 +15,7 @@ class Keplin_Mail_Commenter
         }
     }
     
-    public function send(Model_Comment $comment, Model_Post $post)
+    public function send(Blog\Entity\Comment $comment, Blog\Entity\Post $post)
     {
         $mail = new Zend_Mail();
         $mail->setSubject('Response from robkeplin.com');

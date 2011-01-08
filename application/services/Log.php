@@ -48,7 +48,7 @@ class Service_Log extends Keplin_Service_Acl
         if(!$acl->has($this->getResourceId()))
         {
             $acl->add($this)
-                ->deny(Model_Role::GUEST, $this, array('view', 'delete'));
+                ->deny(\Blog\Entity\Role::GUEST, $this, array('view', 'delete'));
         }
         
         $this->_acl = $acl;

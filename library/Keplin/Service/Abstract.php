@@ -1,6 +1,8 @@
 <?php
 abstract class Keplin_Service_Abstract
 {
+    protected static $_entity_manager;
+    
     protected $_enable_caching;
     private $_msg = null;
     
@@ -37,5 +39,15 @@ abstract class Keplin_Service_Abstract
     public function disableCache()
     {
         $this->_enable_caching = false;
+    }
+
+    public static function setDefaultEntityManager(\Doctrine\ORM\EntityManager $em)
+    {
+        self::$_entity_manager = $em;
+    }
+
+    public function getEntityManager()
+    {
+        return self::$_entity_manager;
     }
 }

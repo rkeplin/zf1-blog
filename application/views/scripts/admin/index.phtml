@@ -8,7 +8,7 @@
     <?php foreach($this->posts as $post) : ?>
         <li>
             <a title="view" href="/admin/edit-post/id/<?= $post->id ?>/"><?= $post->title ?></a>
-            <p><em><strong>Date Added:</strong> <?= date("F jS, Y @ g:ia", strtotime($post->date_added)) ?></em></p>
+            <p><em><strong>Date Added:</strong> <?= $post->date_added->format('F jS, Y @ g:ia') ?></em></p>
             <p><strong>Category:</strong> <?= $post->category->name ?></p>
             <p><strong>Published:</strong> <?= $post->is_published ?></p>
         </li>

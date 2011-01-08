@@ -16,7 +16,7 @@
                 <?php $index++; ?>
                 <tr id="comment-<?= $comment->id ?>" class="<?php print ($index % 2 == 0) ? 'odd' : 'even'; ?>">
                     <td>
-                        <a title="post" href="/admin/edit-post/id/<?= $comment->post_id ?>/"><?= $comment->post_id ?></a>
+                        <a title="post" href="/admin/edit-post/id/<?= $comment->post->id ?>/"><?= $comment->post->id ?></a>
                     </td>
                     <td>
                         <?= $comment->comment ?> 

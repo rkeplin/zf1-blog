@@ -7,10 +7,11 @@ class Service_Comment
     protected $_comment;
     protected $_post;
     protected $_observers;    
-    
+    protected $_repository;
+
     public function __construct()
     {
-        $this->enableCache();
+        $this->_repository = $this->getEntityManager()->getRepository('Blog\Entity\Comment');
     }
     
     public function create($data)
@@ -19,17 +20,20 @@ class Service_Comment
         
         if($form->isValid($data))
         {
-            $comment = new Model_Comment($data);
-            $comment->comment = nl2br($comment->comment);
-            $comment->parent_id = $data['parent_id'];
-            $comment->ip_address = $_SERVER['REMOTE_ADDR'];
-            $comment->post_id = $this->_post->id;
-            $comment->status = 0;
-            $comment->date_added = date("Y-m-d H:i:s");
-            $this->setComment($comment);
-            
-            $mapper = Keplin_Model_Mapper_Factory::create('Comment', $this->_enable_caching);
-            $mapper->save($comment);
+            $comment = new \Blog\Entity\Comment();
+            $comment->setComment(nl2br($data['comment']));
+            $comment->setParentId($data['parent_id']);
+            $comment->setIpAddress($_SERVER['REMOTE_ADDR']);
+            $comment->setPost($this->_post);
+            $comment->setStatus(0);
+            $comment->setDateAdded(new DateTime("now"));
+            $comment->setName($data['name']);
+            $comment->setEmail($data['email']);
+            $comment->setWebsite($data['website']);
+
+            $this->getEntityManager()->persist($comment);
+
+            $this->_comment = $comment;
             
             $this->notify();
             $form->clear();
@@ -43,15 +47,14 @@ class Service_Comment
     
     public function fetchPaged($page)
     {
-        $mapper = Keplin_Model_Mapper_Factory::create('Comment', $this->_enable_caching);
-        $comments = $mapper->fetchPaged($page);
+        $comments = $this->_repository->fetchPaged($page);
+        
         return $comments;
     }
     
     public function delete($comment_id)
     {
-        $mapper = Keplin_Model_Mapper_Factory::create('Comment', $this->_enable_caching);
-        $mapper->delete($comment_id);
+        $this->_repository->delete($comment_id);
     }
     
     public function getForm()
@@ -65,7 +68,7 @@ class Service_Comment
         return $this->_form;
     }
     
-    public function setPost(Model_Post $post)
+    public function setPost(Blog\Entity\Post $post)
     {
         $this->_post = $post;
     }
@@ -75,7 +78,7 @@ class Service_Comment
         return $this->_post;
     }
     
-    public function setComment(Model_Comment $comment)
+    public function setComment(Blog\Entity\Comment $comment)
     {
         $this->_comment = $comment;
     }
@@ -115,7 +118,7 @@ class Service_Comment
         if(!$acl->has($this->getResourceId()))
         {
             $acl->add($this)
-                ->deny(Model_Role::GUEST, $this, array('view-paged', 'delete'));
+                ->deny(\Blog\Entity\Role::GUEST, $this, array('view-paged', 'delete'));
         }
         
         $this->_acl = $acl;

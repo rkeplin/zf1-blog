@@ -1,7 +1,7 @@
 <?php
 class Keplin_Mail_Contact extends Keplin_Mail
 {
-    public function send(Model_Contact $contact)
+    public function send(Blog\Entity\Contact $contact)
     {
         $mail = new Zend_Mail();
         $mail->setSubject('From robkeplin.com');

@@ -3,7 +3,7 @@
 <div class="post">
     <h1><?= $this->post->title ?></h1>
     <div class="post-details">
-        <a title="<?= $this->post->category->name ?>" href="/blog/category/<?= urlencode($this->post->category->name) ?>/"><?= $this->post->category->name ?></a> | Posted by: <?= $this->post->user->name ?> on <?= date("F jS, Y", strtotime($this->post->date_added)) ?>
+        <a title="<?= $this->post->category->name ?>" href="/blog/category/<?= urlencode($this->post->category->name) ?>/"><?= $this->post->category->name ?></a> | Posted by: <?= $this->post->user->name ?> on <?= $this->post->date_added->format('F jS, Y') ?>
     </div>
     <div class="post-content">
         <?= stripslashes($this->post->content) ?>

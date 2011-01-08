@@ -2,7 +2,7 @@
 
 class Zend_View_Helper_Comments extends Zend_View_Helper_Abstract
 {
-    public function comments(Model_CommentCollection $comments)
+    public function comments(Doctrine\ORM\PersistentCollection $comments)
     {
         $count = count($comments);
         
@@ -23,7 +23,7 @@ class Zend_View_Helper_Comments extends Zend_View_Helper_Abstract
         
         for($i = 0; $i < $count; $i++)
         {
-            $comment = $comments->getItem($i);
+            $comment = $comments[$i];
             
             if(!$comment->parent_id)
             {
@@ -31,7 +31,7 @@ class Zend_View_Helper_Comments extends Zend_View_Helper_Abstract
                 
                 for($j = 0; $j < $count; $j++)
                 {
-                    $reply = $comments->getItem($j);
+                    $reply = $comments[$j];
                     
                     if($reply->parent_id == $comment->id)
                     {
@@ -49,7 +49,7 @@ class Zend_View_Helper_Comments extends Zend_View_Helper_Abstract
         return $string;
     }
     
-    public function _printComment(Model_Comment $comment, $is_child = false, $delete_rights = false)
+    public function _printComment(Blog\Entity\Comment $comment, $is_child = false, $delete_rights = false)
     { 
         $extra = ($comment->email == 'rkeplin@gmail.com') ? ' rob' : '';
         $extra .= ($is_child) ? ' reply' : '';
@@ -73,7 +73,7 @@ class Zend_View_Helper_Comments extends Zend_View_Helper_Abstract
         }
         
         $string = '<div id="comment-'. $comment->id .'" class="comment-container'. $extra .'">';
-            $string .= '<h2>'. $author .' - '. date("F jS, Y @ g:ia", strtotime($comment->date_added)) . ' <a class="reply" title="Reply to this comment" href="javascript:replyToComment(\''. $comment->id .'\')">reply</a> '. $del_link .'</h2>';
+            $string .= '<h2>'. $author .' - '. $comment->date_added->format('F jS, Y @ g:ia') . ' <a class="reply" title="Reply to this comment" href="javascript:replyToComment(\''. $comment->id .'\')">reply</a> '. $del_link .'</h2>';
             $string .= '<div class="comment">';
                 
                 $gravatar = $this->view->gravatar($comment->email, array('imgSize' => 50), array('alt' => 'gravatar', 'title' => 'avatar' ));

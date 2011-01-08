@@ -2,10 +2,11 @@
 class Service_Post extends Keplin_Service_Acl
 {
     protected $_form;
+    protected $_repository;
 
     public function __construct()
     {
-        $this->enableCache();
+        $this->_repository = $this->getEntityManager()->getRepository('Blog\Entity\Post');
     }
     
     public function create($data = array())
@@ -14,27 +15,29 @@ class Service_Post extends Keplin_Service_Acl
         
         if($form->isValid($data))
         {
-            $category = new Model_Category();
-            $category->id = $data['category_id'];
-            
+            $category = $this->getEntityManager()->find('\Blog\Entity\Category', $data['category_id']);
+
             if($data['new_category'])
             {
-                $category->id = null;
-                $category->name = $data['new_category'];
+                $category->setId(null);
+                $category->setName($data['new_category']);
+                $this->getEntityManager()->persist($category);
                 
-                $mapper = Keplin_Model_Mapper_Factory::create('Category', $this->_enable_caching);
-                $category = $mapper->save($category);
-                
-                $form->category_id->addMultiOption($category->name, $category->id);
+                $this->_form->category_id->addMultiOption($category->id, $category->name);
             }
         
-            $post = new Model_Post($data);
-            $post->date_added = date("Y-m-d H:i:s");
-            $post->category = $category;
-            $post->user = Zend_Auth::getInstance()->getIdentity();
+            $post = new \Blog\Entity\Post();
+            $post->setContent($data['content']);
+            $post->setTitle($data['title']);
+            $post->setDateAdded(new DateTime("now"));
+            $post->setDateModified(new DateTime("now"));
+            $post->setCategory($category);
+            $post->setIsPublished($data['is_published']);
+
+            $user = $this->getEntityManager()->find('\Blog\Entity\User', Zend_Auth::getInstance()->getIdentity()->getId());
+            $post->setUser($user);
             
-            $mapper = Keplin_Model_Mapper_Factory::create('Post', $this->_enable_caching);
-            $mapper->save($post);
+            $this->getEntityManager()->persist($post);
             
             $form->clear();
             $this->_message('post_create');
@@ -47,32 +50,29 @@ class Service_Post extends Keplin_Service_Acl
         
         if($form->isValid($data))
         {
-            $category = new Model_Category();
-            $category->id = $data['category_id'];
-            
-            $session = new Zend_Session_Namespace('robkeplin.com');
-            $user = new Model_User($session->user);
+            $category = $this->getEntityManager()->find('\Blog\Entity\Category', $data['category_id']);
             
             if($data['new_category'])
             {
-                $category->id = null;
-                $category->name = $data['new_category'];
-                
-                $mapper = Keplin_Model_Mapper_Factory::create('Category', $this->_enable_caching);
-                $category = $mapper->save($category);
+                $category->setId(null);
+                $category->setName($data['new_category']);
+                $this->getEntityManager()->persist($category);
                 
                 $this->_form->category_id->addMultiOption($category->id, $category->name);
                 $this->_form->category_id->setValue($category->id);
                 $this->_form->new_category->setValue('');
             }
             
-            $post = new Model_Post($data);
-            $post->date_modified = date("Y-m-d H:i:s");
-            $post->category = $category;
-            $post->user = Zend_Auth::getInstance()->getIdentity();
+            $post = $this->getEntityManager()->find('\Blog\Entity\Post', $data['id']);
+            $post->setContent($data['content']);
+            $post->setTitle($data['title']);
+            $post->setDateAdded(new DateTime("now"));
+            $post->setCategory($category);
+            $post->setIsPublished($data['is_published']);
             
-            $mapper = Keplin_Model_Mapper_Factory::create('Post', $this->_enable_caching);
-            $mapper->save($post);
+            $user = $this->getEntityManager()->find('\Blog\Entity\User', Zend_Auth::getInstance()->getIdentity()->getId());
+            $post->setUser($user);
+
             $this->_message('post_update');
         }
     }
@@ -87,14 +87,13 @@ class Service_Post extends Keplin_Service_Acl
             }
             else
             {
-                $mapper = Keplin_Model_Mapper_Factory::create('Post', $this->_enable_caching);
-                $mapper->is_published = 0;
-                $post = $mapper->getPost($post_id);
+                $post = $this->_repository->getPost($post_id);
                 
                 $this->_form = new Form_Post();
                 $this->_form->setSubmitLabel('Update Post');
                 $this->_form->populate($post->toArray());
                 $this->_form->content->setValue($post->content);
+                $this->_form->category_id->setValue($post->category->getId());
             }
         }
         
@@ -103,63 +102,56 @@ class Service_Post extends Keplin_Service_Acl
     
     public function getPaged($page = 1)
     {
-        $mapper = Keplin_Model_Mapper_Factory::create('Post', $this->_enable_caching);
-        $mapper->is_published = 0;
-        $posts = $mapper->getPagedTitles($page);
+        $posts = $this->_repository->getPaged($page);
         
         return $posts;
     }
     
     public function getFromTitle($title)
     {
-        $mapper = Keplin_Model_Mapper_Factory::create('Post', $this->_enable_caching);
-        $mapper->is_published = 0;
-        $post = $mapper->getFromTitle($title);
+        $post = $this->_repository->getFromTitle($title);
         
         return $post;
     }
     
     public function getPagedFromCategory($category, $page = 1)
     {
-        $mapper = Keplin_Model_Mapper_Factory::create('Post', $this->_enable_caching);
-        $mapper->is_published = 1;
-        $posts = $mapper->getFromCategory($category, $page);
+        $posts = $this->_repository->getFromCategory($category, $page);
         
         return $posts;
     }
     
     public function getLatest()
     {
-        $mapper = Keplin_Model_Mapper_Factory::create('Post', $this->_enable_caching);
-        $mapper->is_published = 1;
-        $post = $mapper->fetchLatest();
+        $post = $this->_repository->getLatest();
         
         return $post;
+    }
+
+    public function getRecent($limit = 5)
+    {
+        $post = $this->_repository->getRecent($limit);
+
+        return $post;
+    }
+
+    public function getValidYears()
+    {
+        $years = $this->_repository->fetchValidYears();
+
+        return $years;
     }
     
     public function getRss()
     {
-        $mapper = Keplin_Model_Mapper_Factory::create('Post', $this->_enable_caching);
-        $mapper->is_published = 1;
-        $posts = $mapper->getRssFeed();
+        $posts = $this->_repository->getRss();
         
         return $posts;
     }
     
-    public function getValidYears()
-    {
-        $mapper = Keplin_Model_Mapper_Factory::create('Post', $this->_enable_caching);
-        $mapper->is_published = 1;
-        $years = $mapper->fetchValidYears();
-        
-        return $years;
-    }
-    
     public function getArchive($year, $page = 1)
     {
-        $mapper = Keplin_Model_Mapper_Factory::create('Post', $this->_enable_caching);
-        $mapper->is_published = 1;
-        $posts = $mapper->getFromArchive($year, $page);
+        $posts = $this->_repository->getFromArchive($year, $page);
         
         return $posts;
     }
@@ -177,7 +169,7 @@ class Service_Post extends Keplin_Service_Acl
         if(!$acl->has($this->getResourceId()))
         {
             $acl->add($this)
-                ->deny(Model_Role::GUEST, $this, array('create', 'edit', 'view-list'));
+                ->deny(\Blog\Entity\Role::GUEST, $this, array('create', 'edit', 'view-list'));
         }
         
         $this->_acl = $acl;

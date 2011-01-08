@@ -69,6 +69,7 @@ class BlogController extends Zend_Controller_Action
         if($data = $this->_request->getPost())
         {
             $service->create($data);
+            $service->getEntityManager()->flush();
         }
         
         $this->view->post = $post;

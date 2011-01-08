@@ -4,8 +4,8 @@ class Zend_View_Helper_RecentBlogs extends Zend_View_Helper_Abstract
 {
     public function recentBlogs($limit = 2)
     {
-        $mapper = new Model_Mapper_Cache_Post();
-        $posts = $mapper->getRecentPosts($limit);
+        $service = new Service_Post();
+        $posts = $service->getRecent($limit);
         
         $string = '';
         

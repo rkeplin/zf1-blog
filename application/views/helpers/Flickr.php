@@ -7,14 +7,16 @@ class Zend_View_Helper_Flickr extends Zend_View_Helper_Abstract
         $service->setPage(1);
         $service->setPerPage($num_photos);
         $photos = $service->fetchPhotosFromUsername('rkeplin');
-        
+
         $string = '';
-        
+
         foreach($photos as $photo)
         {
+            $photo = new Keplin_Flickr_Photo($photo);
+
             $string .= '<a title="photography by rob" href="/photography">' . $photo->printImage('s') . '</a>' . "\r\n";
         }
-        
+
         return $string;
     }
 }
